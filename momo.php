@@ -5,10 +5,10 @@
  * Description: Receive mobile money payments on your website with WooCommerce + MOMO
  * Author: The African Boss (theafricanboss@gmail.com)
  * Author URI: https://theafricanboss.com
- * Version: 2.3.0
- * Version Date: Apr 14, 2020
+ * Version: 2.4.0
+ * Version Date: Apr 28, 2020
  * Created: 2019
- * Copyright 2019 theafricanboss.com All rights reserved
+ * Copyright 2020 theafricanboss.com All rights reserved
  */
  
 // Reach out to The African Boss for website and mobile app development services at theafricanboss@gmail.com
@@ -191,28 +191,19 @@ if ( ! class_exists( 'WooCommerce' ) ) {
         	do_action( 'woocommerce_form_start', $this->id );
         	
         	echo 'Please select your mobile money payment method to send the requested total amount via an online mobile money platform (CashApp, Venmo, GooglePay, ApplePay, Western Union, Moneygram, etc) or via a local mobile money agent and fill these fields below out to confirm that you have sent the total requested amount.',"<br>","<br>";
-    		echo "Send the full payment to the available payment transfer accounts below: ", "<br><br>",
-    		wpautop( wp_kses_post( $this->ReceiverMOMONo ) ),
-    		"Registered under ", wpautop( wp_kses_post( $this->ReceiverMOMONoOwner ) ),
-    		wpautop( wp_kses_post( $this->ReceiverCashApp ) ),
-    		"Registered under ", wpautop( wp_kses_post( $this->ReceiverCashAppOwner ) ),
-    		wpautop( wp_kses_post( $this->ReceiverVenmo ) ),
-    		"Registered under ", wpautop( wp_kses_post( $this->ReceiverVenmoOwner ) ),
-    		wpautop( wp_kses_post( $this->ReceiverMOMOEmail ) ), "<br><br>";
-        	echo '
+    		echo '
         		<div class="form-row form-row-wide">
         	        <label>Payment Transfer Method used <span class="required">*</span></label>
 					<select id="momo-MOMOApp" name="MOMOApp" style="width:95%; border:1px solid" type="text" placeholder="Please select an option from the dropdown" autocomplete="off">
 					  <option>Select a different option from this dropdown</option>
-					  <option value="agent">MOMO Agent</option>
-					  echo <option value="cashapp">Cash App</option>
-					  <option value="venmo">Venmo App</option>
-					  <option value="googlepay">Google Pay</option>
-					  <option value="applepay">Apple Pay</option>
-					  <option value="westernunion">Western Union</option>
-					  <option value="moneygram">MoneyGram</option>
-					  <option value="worldremit">World Remit</option>
-					  <option value="spenn">SPENN App</option>
+					  <option value="agent">MOMO Agent to ', wpautop( wp_kses_post( $this->ReceiverMOMONo ) ), "Registered under ", wpautop( wp_kses_post( $this->ReceiverMOMONoOwner ) ), '</option>
+					  <option value="cashapp">Cash App ', wpautop( wp_kses_post( $this->ReceiverCashApp ) ), "Registered under ", wpautop( wp_kses_post( $this->ReceiverCashAppOwner ) ),'</option>
+					  <option value="venmo">Venmo App ', wpautop( wp_kses_post( $this->ReceiverVenmo ) ), "Registered under ", wpautop( wp_kses_post( $this->ReceiverVenmoOwner ) ),'</option>
+					  <option value="googlepay">Google Pay ', wpautop( wp_kses_post( $this->ReceiverMOMOEmail ) ), '</option>
+					  <option value="applepay">Apple Pay ', wpautop( wp_kses_post( $this->ReceiverMOMOEmail ) ), '</option>
+					  <option value="westernunion">Western Union to ', wpautop( wp_kses_post( $this->ReceiverMOMONoOwner ) ), '</option>
+					  <option value="moneygram">MoneyGram to ', wpautop( wp_kses_post( $this->ReceiverMOMONoOwner ) ), '</option>
+					  <option value="worldremit">World Remit to ', wpautop( wp_kses_post( $this->ReceiverMOMONoOwner ) ), '</option>
 					</select>
         		</div>
         		<div class="form-row form-row-wide">
