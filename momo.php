@@ -5,14 +5,17 @@
  * Description: Receive mobile money payments on your website with WooCommerce + MOMO
  * Author: The African Boss (theafricanboss@gmail.com)
  * Author URI: https://theafricanboss.com
- * Version: 2.4.0
- * Version Date: Apr 28, 2020
+ * Version: 2.4.2
+ * Version Date: Apr 29, 2020
  * Created: 2019
  * Copyright 2020 theafricanboss.com All rights reserved
  */
  
 // Reach out to The African Boss for website and mobile app development services at theafricanboss@gmail.com
 // or at www.TheAfricanBoss.com or download our app at www.TheAfricanBoss.com/app
+
+// If you are using this version, please send us some feedback
+//via email at theafricanboss@gmail.com on your thoughts and what you would like improved
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -63,7 +66,7 @@ if ( ! class_exists( 'WooCommerce' ) ) {
     add_action( 'admin_notices', 'woocommerce_momo_missing_wc_notice' );
     return;
 }
- 
+
 	class WC_MOMO_Gateway extends WC_Payment_Gateway {
  
  		/**
@@ -121,7 +124,7 @@ if ( ! class_exists( 'WooCommerce' ) ) {
         			'type'        => 'text',
         			'description' => 'This is the title which the user sees during checkout.',
         			'default'     => 'MOMO - Easy Mobile Money Payments (MOMO, GooglePay, ApplePay, Cash App, Venmo, Western Union, MoneyGram, etc)',
-        			'placeholder'     => 'MOMO - Easy Mobile Money Payments (MOMO, GooglePay, ApplePay, Cash App, Venmo, Western Union, MoneyGram, etc)',
+        			'placeholder' => 'MOMO - Easy Mobile Money Payments (MOMO, GooglePay, ApplePay, Cash App, Venmo, Western Union, MoneyGram, etc)',
         			'desc_tip'    => true,
         		),
         		'description' => array(
@@ -135,48 +138,46 @@ if ( ! class_exists( 'WooCommerce' ) ) {
         			'title'       => 'Receiver Mobile Money No',
         			'type'        => 'text',
         			'description' => 'This is the phone number associated with your store mobile money account or your receiving Mobile Money account. Customers will send money to this number',
-        			'default'     => "For Mobile Money, use +",
-        			'placeholder'     => "For Mobile Money, use +[1234567890]",
+        			'placeholder' => "+1234567890",
         		),
         		'ReceiverMOMONoOwner' => array(
         			'title'       => "Receiver Mobile Money Owner's Name",
         			'type'        => 'text',
         			'description' => 'This is the name associated with your store mobile money account or your receiving Mobile Money account. Customers will send money to this name',
-        			'placeholder'     => "John D",
+        			'placeholder' => "John D",
         		),
         		'ReceiverCashApp' => array(
         			'title'       => 'Receiver Cash App account',
         			'type'        => 'text',
         			'description' => 'This is the Cash App account associated with your store Cash App account. Customers will send money to this Cash App account',
-        			'default'     => 'For CashApp, use $',
-        			'placeholder'     => 'For CashApp, use $[cashid]',
+        			'default'     => '$',
+        			'placeholder' => '$cashId',
         		),
         		'ReceiverCashAppOwner' => array(
         			'title'       => "Receiver Cash App Owner's Name",
         			'type'        => 'text',
         			'description' => 'This is the name associated with your store Cash App account. Customers will send money to this Cash App account name',
-        			'placeholder'     => 'Jane D',
+        			'placeholder' => 'Jane D',
         		),
         		'ReceiverVenmo' => array(
         			'title'       => 'Receiver Venmo account',
         			'type'        => 'text',
         			'description' => 'This is the Venmo account associated with your store Venmo account. Customers will send money to this Venmo account',
-        			'default'     => 'For Venmo, use @',
-        			'placeholder'     => 'For Venmo, use @[venmoid]',
+        			'default'     => '@',
+        			'placeholder' => '@venmoid',
         		),
         		'ReceiverVenmoOwner' => array(
         			'title'       => "Receiver Venmo Owner's Name",
         			'type'        => 'text',
-        			'description' => 'This is the name associated with your store Venmo account.
-        			Customers will send money to this Venmo account name',
-        			'placeholder'     => 'Snoop D',
+        			'description' => 'This is the name associated with your store Venmo account. Customers will send money to this Venmo account name',
+        			'placeholder' => 'Snoop D',
         		),
         		'ReceiverMOMOEmail' => array(
         			'title'       => "Receiver Mobile Money Owner's Email",
         			'type'        => 'text',
         			'description' => 'This is the email associated with your store mobile money account or your receiving Mobile Money account. Customers will send money to this email',
-        			'default'     => "For GooglePay, use ",
-        			'placeholder'     => "For GooglePay, use [email@website.com]",
+        			'default'     => "@gmail.com",
+        			'placeholder' => "email@website.com",
         		),
         	);
         }
@@ -190,7 +191,7 @@ if ( ! class_exists( 'WooCommerce' ) ) {
         	// Add this action hook if you want your custom payment gateway to support it
         	do_action( 'woocommerce_form_start', $this->id );
         	
-        	echo 'Please select your mobile money payment method to send the requested total amount via an online mobile money platform (CashApp, Venmo, GooglePay, ApplePay, Western Union, Moneygram, etc) or via a local mobile money agent and fill these fields below out to confirm that you have sent the total requested amount.',"<br>","<br>";
+        	echo 'Please select your mobile money payment method to send the requested total amount via an online mobile money platform (CashApp, Venmo, GooglePay, ApplePay, Western Union, Moneygram, etc) or via a local mobile money agent and fill these fields out below to confirm that you have sent the total requested amount.',"<br>","<br>";
     		echo '
         		<div class="form-row form-row-wide">
         	        <label>Payment Transfer Method used <span class="required">*</span></label>
@@ -228,7 +229,7 @@ if ( ! class_exists( 'WooCommerce' ) ) {
         		</div>
         		<div class="clear"></div>';
         	echo "<br>", 'See this ', "<a href='https://theafricanboss.com/momodemo' style='text-decoration: underline' target='_blank'>", '1min video demo ' ,"</a>" , 'explaining how this works.', "<br>";
-        	echo 'If you are having an issue, please contact ', "<span style='text-decoration: underline'>", wp_kses_post($this->ReceiverMOMONo) ,"</a>";
+        	echo 'If you are having an issue, please contact ', '<a href="mailto:', wp_kses_post($this->ReceiverMOMOEmail) ,'" target="_blank">', wp_kses_post($this->ReceiverMOMOEmail) ,"</a>";
         	echo "<br><br>", "<a href='https://theafricanboss.com/momo' style='text-decoration: underline' target='_blank'>", 'Plugin by The African Boss ' ,"</a>" , "<br>";
          
         	do_action( 'woocommerce_form_end', $this->id );
@@ -269,7 +270,7 @@ if ( ! class_exists( 'WooCommerce' ) ) {
         		$sum = $sum++;
         	}
         	
-			/*
+		/*
         	if( empty( $_POST[ 'MOMORefNo' ]) ) {
         		wc_add_notice(  'Mobile Money Reference/Transaction code is required!', 'error' );
         		$sum = $sum++;
@@ -318,9 +319,13 @@ if ( ! class_exists( 'WooCommerce' ) ) {
     			$MOMOCurrencyCode = $_POST['MOMOCurrencyCode'];
     			$MOMOApp = $_POST['MOMOApp'];
 				
-    			$note = 'Hey, your order application went through!
-    			We will check our systems to confirm that we received the '."<strong style='text-transform:uppercase;'>". $MOMOAmountNo . $MOMOCurrencyCode ."</strong>". ' sent by ' ."<strong style='text-transform:uppercase;'>".  $CustomerMOMOName ."</strong>". ' using this mobile money phone number: ' ."<strong>". $CustomerMOMONo ."</strong>". ' along with the following MOMO Reference Code ' ."<strong>". $MOMORefNo ."</strong>". ' from ' . $MOMOApp . ' and proceed with the shipping and delivery options you chose!
-    			Thank you for doing business with us! You will be updated on your products shipping soon';
+    			$note = 'Dear ' .  $CustomerMOMOName . ', your order application was received!'.'<br><br>'.
+				'We are checking our systems to confirm that we received the '."<strong style='text-transform:uppercase;'>". $MOMOAmountNo . $MOMOCurrencyCode ."</strong>".
+				' sent by ' ."<strong style='text-transform:uppercase;'>".  $CustomerMOMOName ."</strong>". ' using the following mobile money phone number: ' ."<strong>". $CustomerMOMONo ."</strong>".
+				' along with the following MOMO Reference Code ' ."<strong>". $MOMORefNo ."</strong>". ' sent using ' . $MOMOApp . ' so we can proceed with the shipping and delivery options you chose.'.'<br><br>'.
+				'Thank you for doing business with us' .  $CustomerMOMOName . '!'.'<br>'.
+				' You will be updated regarding your order details soon'.'<br>'.
+				'Kindly,'.'<br>'. 'Store Assistant';
     			
     			// some notes to customer (replace true with false to make it private)
     			$order->add_order_note( $note , true );
@@ -352,3 +357,6 @@ if ( ! class_exists( 'WooCommerce' ) ) {
 
 // Reach out to The African Boss for website and mobile app development services at theafricanboss@gmail.com
 // or at www.TheAfricanBoss.com or download our app at www.TheAfricanBoss.com/app
+
+// If you are using this version, please send us some feedback
+//via email at theafricanboss@gmail.com on your thoughts and what you would like improved
