@@ -5,8 +5,8 @@
  * Description: Receive mobile money payments on your website with WooCommerce + MOMO
  * Author: The African Boss (theafricanboss@gmail.com)
  * Author URI: https://theafricanboss.com
- * Version: 2.4.2
- * Version Date: Apr 29, 2020
+ * Version: 2.4.5
+ * Version Date: Apr 30, 2020
  * Created: 2019
  * Copyright 2020 theafricanboss.com All rights reserved
  */
@@ -48,13 +48,21 @@ function momo_gateway_for_country( $gateways ) {
 	}
 	return $gateways;
 }
- */
+*/
 
-add_filter( 'plugin_action_links', 'momo_settings_link' );
+//Dashboard menu
+function momo_admin_menu(){
+	add_menu_page( null, 'MOMO', 'manage_options', 'wc-settings&tab=checkout&section=momo', 'momo_admin_menu', 'dashicons-cart' );
+}
+add_action('admin_menu','momo_admin_menu');
+
+//Settings button
 function momo_settings_link( $links_array ){
 	array_unshift( $links_array, '<a href="/wp-admin/admin.php?page=wc-settings&tab=checkout&section=momo">Settings</a>' );
 	return $links_array;
 }
+$plugin = plugin_basename(__FILE__); 
+add_filter( "plugin_action_links_$plugin", 'momo_settings_link' );
 
 /*
  * The class itself, please note that it is inside plugins_loaded action hook
