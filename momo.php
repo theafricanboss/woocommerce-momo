@@ -50,13 +50,17 @@ function momo_gateway_for_country( $gateways ) {
 }
 */
 
-//Dashboard menu
+/*
+ * Dashboard Menu Button
+ */
 function momo_admin_menu(){
 	add_menu_page( null, 'MOMO', 'manage_options', 'wc-settings&tab=checkout&section=momo', 'momo_admin_menu', 'dashicons-cart' );
 }
 add_action('admin_menu','momo_admin_menu');
 
-//Settings button
+/*
+ * Settings Button
+ */
 function momo_settings_link( $links_array ){
 	array_unshift( $links_array, '<a href="/wp-admin/admin.php?page=wc-settings&tab=checkout&section=momo">Settings</a>' );
 	return $links_array;
