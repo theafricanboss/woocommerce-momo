@@ -14,7 +14,9 @@
 
 MOMO - Easy Mobile Money Payments via WooCommerce (MOMO, Cash App, Venmo, GooglePay, ApplePay, Western Union, MoneyGram)
 
-For more details about this woocommerce extension, **please visit [The African Boss](https://theafricanboss.com/momo "Here") **
+For more details about this woocommerce extension, **please visit [The African Boss](https://theafricanboss.com/momo)**
+
+[![MOMO](https://theafricanboss.com/wp-content/uploads/2020/05/momo_button.png)](https://gurastores.com/)
 
 See the screenshots or the store example of Gura Stores for visual details.
 
@@ -22,7 +24,7 @@ See the screenshots or the store example of Gura Stores for visual details.
 
 Please reach out to theafricanboss@gmail.com for a customized version of this plugin or for the pro version.
 
-You may get upgrades of ‘MOMO - Mobile Money Payments Woocommerce Extension’ from [The African Boss](https://theafricanboss.com/momo "Here")
+You may get upgrades of ‘MOMO - Mobile Money Payments Woocommerce Extension’ from [The African Boss](https://theafricanboss.com/momo)
 
 Upgrades include **adding multiple numbers, different carriers, and more**
 
@@ -30,7 +32,7 @@ Upgrades include **adding multiple numbers, different carriers, and more**
 
 An example of the plugin in use is the following stores:
 
-[![Gura Stores](https://theafricanboss.com/wp-content/uploads/2020/05/demo_site.png)](https://gurastores.com/)
+[![Gura Stores](https://theafricanboss.com/wp-content/uploads/2020/05/gurastores_button.png)](https://gurastores.com/)
 
 
 ### Compatible or Available Countries
@@ -93,3 +95,7 @@ MOMO plugin is a quick and easy way to notify the store owner that mobile money 
 ### Where can I get support?
 
 Please email us at theafricanboss@gmail.com for support or any inquiries or just [use the issues page on here](https://github.com/theafricanboss/woocommerce-momo/issues)
+
+### For more questions, go to MOMO
+
+[![MOMO](https://theafricanboss.com/wp-content/uploads/2020/05/momo_button.png)](https://gurastores.com/)
