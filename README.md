@@ -32,7 +32,7 @@ Upgrades include **adding multiple numbers, different carriers, and more**
 
 An example of the plugin in use is the following stores:
 
-[![Gura Stores](https://theafricanboss.com/wp-content/uploads/2020/05/gurastores_button.png)](https://theafricanboss.com/momo)
+[![Gura Stores](https://theafricanboss.com/wp-content/uploads/2020/05/gurastores_button.png)](https://gurastores.com/)
 
 
 ### Compatible or Available Countries
@@ -98,4 +98,4 @@ Please email us at theafricanboss@gmail.com for support or any inquiries or just
 
 ### For more questions, go to MOMO
 
-[![MOMO](https://theafricanboss.com/wp-content/uploads/2020/05/momo_button.png)](https://gurastores.com/)
+[![MOMO](https://theafricanboss.com/wp-content/uploads/2020/05/momo_button.png)](https://theafricanboss.com/momo)
