@@ -1,9 +1,12 @@
 
-### MOMO
-
-Receive mobile money payments on your website with WooCommerce + MOMO
-
-<img width="300" width="auto">
+<center>
+<h1>MOMO</h1>
+  
+  <p>Receive mobile money payments on your website with WooCommerce + MOMO</p>
+  
+  <p><img alt="screenshot 1" src="https://theafricanboss.com/wp-content/uploads/2020/05/momo-backend-screencapture.jpg" width="300"/><img alt="screenshot 2" src="https://theafricanboss.com/wp-content/uploads/2020/05/momo-frontend-screencapture.jpg" width="300"/></p>
+    
+</center>
 
 ## Description
 
@@ -15,7 +18,7 @@ For more details about this woocommerce extension, **please visit [The African B
 
 See the screenshots or the store example of Gura Stores for visual details.
 
-# PRO or customized version
+### PRO or customized version
 
 Please reach out to theafricanboss@gmail.com for a customized version of this plugin or for the pro version.
 
@@ -23,14 +26,14 @@ You may get upgrades of ‘MOMO - Mobile Money Payments Woocommerce Extension’
 
 Upgrades include **adding multiple numbers, different carriers, and more**
 
-# Demo
+### Demo
 
 An example of the plugin in use is the following stores:
 
-[![Gura Stores]](https://gurastores.com/)
+[![Gura Stores](https://theafricanboss.com/wp-content/uploads/2020/05/demo_site.png)](https://gurastores.com/)
 
 
-# Compatible or Available Countries
+### Compatible or Available Countries
 
 This plugin is compatible with **any carrier in any country** since all it does is report details of a mobile money transaction between a customer and a store owner.
 
@@ -38,14 +41,14 @@ See the screenshots or the store example of Gura Stores for visual details.
 
 ## Installation
 
-# Using cPanel or FTP
+### Using cPanel or FTP
 
 * Download ‘MOMO - Mobile Money Payments Woocommerce Extension’ from [The African Boss](https://theafricanboss.com/momo "Here")
 * Unzip ‘woocommerce-momo-extension.zip’ file and
 * Upload ‘woocommerce-momo-extension folder to the “/wp-content/plugins/” directory.
 * Activate the plugin through the “Plugins” menu in WordPress.
 
-# After Plugin Activation
+### After Plugin Activation
 
 Find MOMO in your admin dashboard left sidebar menu of buttons 
 
@@ -57,12 +60,12 @@ Go to Woocommerce-> Settings-> Payments screen to configure the plugin.
 
 ## Frequently Asked Questions
 
-# Which carrier is MOMO compatible with in my country?
+### Which carrier is MOMO compatible with in my country?
 
 This plugin is compatible with **any carrier in any country** since all it does is report details of a mobile money transaction between a customer and a store owner.
 See the screenshots or the store example of Gura Stores for visual details.
 
-# Can I get more carriers, phone numbers, etc?
+### Can I get more carriers, phone numbers, etc?
 
 Please reach out to theafricanboss@gmail.com for a customized version of this plugin or for the pro version.
 
@@ -70,7 +73,7 @@ You may get upgrades of ‘MOMO - Mobile Money Payments Woocommerce Extension’
 
 Upgrades include **adding multiple numbers, different carriers, and more**
 
-# What is included in the PRO version or the customized version?
+### What is included in the PRO version or the customized version?
 
 Please reach out to theafricanboss@gmail.com for a customized version of this plugin or for the pro version.
 
@@ -78,12 +81,12 @@ You may get upgrades of ‘MOMO - Mobile Money Payments Woocommerce Extension’
 
 Upgrades include **adding multiple numbers, different carriers, and more**
 
-# Does MOMO integrate Payments APIs?
+### Does MOMO integrate Payments APIs?
 
 MOMO plugin is a quick and easy way to notify the store owner that mobile money has been sent their way.
 Unfortunately, it doesn't integrate any APIs and only notifies the store owner and the customer that the offline mobile money transaction took place.
 See the screenshots or the store example of Gura Stores for visual details on what is reported.
 
-# Where can I get support?
+### Where can I get support?
 
 Please email us at info@theafricanboss.com for support or any inquiries or just use the issues page.
