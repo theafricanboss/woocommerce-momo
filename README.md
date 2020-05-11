@@ -4,7 +4,7 @@
   
   <p>Receive mobile money payments on your website with WooCommerce + MOMO</p>
   
-  <p><img alt="screenshot 1" src="https://theafricanboss.com/wp-content/uploads/2020/05/momo-backend-screencapture.jpg" width="300"/><img alt="screenshot 2" src="https://theafricanboss.com/wp-content/uploads/2020/05/momo-frontend-screencapture.jpg" width="300"/></p>
+  <p><img alt="screenshot 1" style=”display:block; align: left” src="https://theafricanboss.com/wp-content/uploads/2020/05/momo-backend-screencapture.jpg" width="300"/><img alt="screenshot 2" style=”display:block; align: right” src="https://theafricanboss.com/wp-content/uploads/2020/05/momo-frontend-screencapture.jpg" width="300"/></p>
     
 </center>
 
