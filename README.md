@@ -92,4 +92,4 @@ MOMO plugin is a quick and easy way to notify the store owner that mobile money 
 
 ### Where can I get support?
 
-Please email us at info@theafricanboss.com for support or any inquiries or just use the issues page.
+Please email us at theafricanboss@gmail.com for support or any inquiries or just use the issues page.
