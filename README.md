@@ -41,7 +41,7 @@ See the screenshots or the store example of Gura Stores for visual details.
 
 ## Installation
 
-### Using cPanel or FTP
+### Using cPanel or FTP or by uploading to Plugins page
 
 * Download ‘MOMO - Mobile Money Payments Woocommerce Extension’ here
 * Unzip ‘woocommerce-momo-extension.zip’ file and
