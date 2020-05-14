@@ -279,15 +279,21 @@ public function payment_scripts() {
  * Fields validation
  */
 public function validate_fields() {
-
+	$customerMomoName = trim($_POST[ 'CustomerMOMOName' ]);
+	$customerMomoNumber = trim($_POST[ 'CustomerMOMONo' ]);
+	$customerMomoAmount = trim($_POST[ 'MOMOAmountNo' ]);
+	$customerMomoCurrencyCode = trim($_POST[ 'MOMOCurrencyCode' ]);
+	$customerMomoCurrencyCode = strtoupper($customerMomoCurrencyCode);
+	$customerPaymentMode = trim($_POST[ 'MOMOApp' ]);
+	
 	$sum = 0;
 
-	if( empty( $_POST[ 'CustomerMOMOName' ]) ) {
-		wc_add_notice(  'Mobile Money Customer Name is required!', 'error' );
+	if( empty( $_POST[ 'CustomerMOMOName' ]) || strlen($customerMomoNumber) < 3 ) {
+		wc_add_notice(  'Mobile Money Customer Name is invalid!', 'error' );
 		$sum = $sum++;
 	}
-	if( empty( $_POST[ 'CustomerMOMONo' ]) ) {
-		wc_add_notice(  'Mobile Money Customer Phone Number is required!', 'error' );
+	if( empty( $_POST[ 'CustomerMOMONo' ]) || strlen($customerMomoNumber) < 10 || is_numeric($customerMomoNumber) ) {
+		wc_add_notice(  'Mobile Money Customer Phone Number is invalid!', 'error' );
 		$sum = $sum++;
 	}
 
@@ -298,23 +304,25 @@ public function validate_fields() {
 	}
 	*/
 
-	if( empty( $_POST[ 'MOMOAmountNo' ]) ) {
-		wc_add_notice(  'Mobile Money Transferred Amount is required!', 'error' );
+	if( empty( $_POST[ 'MOMOAmountNo' ]) || is_numeric($customerMomoAmount)) {
+		wc_add_notice(  'Mobile Money Transferred Amount is invalid!', 'error' );
 		$sum = $sum++;
 	}
 
-	if( empty( $_POST[ 'MOMOCurrencyCode' ]) ) {
-		wc_add_notice(  'Mobile Money currency code is required!', 'error' );
+	if( empty( $_POST[ 'MOMOCurrencyCode' ]) || strlen($customerMomoCurrencyCode) < 2  || strlen($customerMomoCurrencyCode) > 4) {
+		wc_add_notice(  'Mobile Money currency code is invalid!', 'error' );
 		$sum = $sum++;
 	}
 
-	if( empty( $_POST[ 'MOMOApp' ]) ) {
-		wc_add_notice(  'Payment Transfer Method is required!', 'error' );
+	if( empty( $_POST[ 'MOMOApp' ] ) ) {
+		wc_add_notice(  'Payment Transfer Method is invalid!', 'error' );
 		$sum = $sum++;
 	}
 
 	if( $sum == 0 ) {
 	    return true;
+	} else {
+		return false;
 	}
 }
 
@@ -327,43 +335,53 @@ public function process_payment( $order_id ) {
 	// we need it to get any order details
 	$order = wc_get_order( $order_id );
 
-     if( !is_wp_error($order) ) {
 
-		// we received the payment
-		$order->payment_complete();
-		$order->reduce_order_stock();
+	if(validate_fields() == true) {
+		if( !is_wp_error($order) ) {
 
-		$MOMORefNo = $_POST['MOMORefNo'];
-		$MOMOAmountNo = $_POST['MOMOAmountNo'];
-		$CustomerMOMOName = $_POST['CustomerMOMOName'];
-		$CustomerMOMONo = $_POST['CustomerMOMONo'];
-		$MOMOCurrencyCode = $_POST['MOMOCurrencyCode'];
-		$MOMOApp = $_POST['MOMOApp'];
-
-		$note = 'Dear ' .  $CustomerMOMOName . ', your order application was received!'.'<br><br>'.
-			'We are checking our systems to confirm that we received the '."<strong style='text-transform:uppercase;'>". $MOMOAmountNo . $MOMOCurrencyCode ."</strong>".
-			' sent by ' ."<strong style='text-transform:uppercase;'>".  $CustomerMOMOName ."</strong>". ' using the following mobile money phone number: ' ."<strong>". $CustomerMOMONo ."</strong>".
-			' along with the following MOMO Reference Code ' ."<strong>". $MOMORefNo ."</strong>". ' sent using ' . $MOMOApp . ' so we can proceed with the shipping and delivery options you chose.'.'<br><br>'.
-			'Thank you for doing business with us' .  $CustomerMOMOName . '!'.'<br>'.
-			' You will be updated regarding your order details soon'.'<br>'.
-			'Kindly,'.'<br>'. 'Store Assistant';
-
-		// some notes to customer (replace true with false to make it private)
-		$order->add_order_note( $note , true );
-
-		// Empty cart
-		$woocommerce->cart->empty_cart();
-
-		// Redirect to the thank you page
+			// we received the payment
+			$order->payment_complete();
+			$order->reduce_order_stock();
+	
+			$MOMORefNo = $_POST['MOMORefNo'];
+			$MOMOAmountNo = $_POST['MOMOAmountNo'];
+			$CustomerMOMOName = $_POST['CustomerMOMOName'];
+			$CustomerMOMONo = $_POST['CustomerMOMONo'];
+			$MOMOCurrencyCode = $_POST['MOMOCurrencyCode'];
+			$MOMOApp = $_POST['MOMOApp'];
+	
+			$note = 'Dear ' .  $CustomerMOMOName . ', your order application was received!'.'<br><br>'.
+				'We are checking our systems to confirm that we received the '."<strong style='text-transform:uppercase;'>". $MOMOAmountNo . $MOMOCurrencyCode ."</strong>".
+				' sent by ' ."<strong style='text-transform:uppercase;'>".  $CustomerMOMOName ."</strong>". ' using the following mobile money phone number: ' ."<strong>". $CustomerMOMONo ."</strong>".
+				' along with the following MOMO Reference Code ' ."<strong>". $MOMORefNo ."</strong>". ' sent using ' . $MOMOApp . ' so we can proceed with the shipping and delivery options you chose.'.'<br><br>'.
+				'Thank you for doing business with us' .  $CustomerMOMOName . '!'.'<br>'.
+				' You will be updated regarding your order details soon'.'<br>'.
+				'Kindly,'.'<br>'. 'Store Assistant';
+	
+			// some notes to customer (replace true with false to make it private)
+			$order->add_order_note( $note , true );
+	
+			// Empty cart
+			$woocommerce->cart->empty_cart();
+	
+			// Redirect to the thank you page
+			return array(
+				'result' => 'success',
+				'redirect' => $this->get_return_url( $order )
+			);
+	
+		} else {
+			wc_add_notice(  'Connection error.', 'error' );
+			return;
+		}
+	} else {
 		return array(
-			'result' => 'success',
+			'result' => 'error',
 			'redirect' => $this->get_return_url( $order )
 		);
-
-	} else {
-		wc_add_notice(  'Connection error.', 'error' );
-		return;
 	}
+
+     
 }
 
 	public function webhook() {
