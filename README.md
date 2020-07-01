@@ -4,7 +4,7 @@
   
   <p>Receive mobile money payments on your website with WooCommerce + MOMO</p>
   
-  <p>Find the most up-to-date version on [our official wordpress directory link](https://wordpress.org/plugins/momo-mobile-money-payments-woocommerce-extension/)</p>
+  <p>Find the most up-to-date version on <a href="https://wordpress.org/plugins/momo-mobile-money-payments-woocommerce-extension/" target="_blank">our official wordpress directory link</a></p>
   
   <p><img alt="screenshot 1" style=”display:block; align: left” src="https://theafricanboss.com/wp-content/uploads/2020/05/momo-backend-screencapture.jpg" width="400"/> <img alt="screenshot 2" style=”display:block; align: right” src="https://theafricanboss.com/wp-content/uploads/2020/05/momo-frontend-screencapture.jpg" width="400"/></p>
     
