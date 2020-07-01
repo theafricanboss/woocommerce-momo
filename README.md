@@ -16,7 +16,7 @@ MOMO - Easy Mobile Money Payments via WooCommerce (MOMO, Cash App, Venmo, Google
 
 For more details about this woocommerce extension, **please visit [The African Boss](https://theafricanboss.com/momo)**
 
-[![MOMO](https://theafricanboss.com/wp-content/uploads/2020/05/momo_button.png)](https://theafricanboss.com/momo)
+[![MOMO](https://theafricanboss.com/wp-content/uploads/2020/05/momo_button.png)](https://wordpress.org/plugins/momo-mobile-money-payments-woocommerce-extension/)
 
 See the screenshots or the store example of Gura Stores for visual details.
 
@@ -98,4 +98,4 @@ Please email us at theafricanboss@gmail.com for support or any inquiries or just
 
 ### For more questions, go to MOMO
 
-[![MOMO](https://theafricanboss.com/wp-content/uploads/2020/05/momo_button.png)](https://theafricanboss.com/momo)
+[![MOMO](https://theafricanboss.com/wp-content/uploads/2020/05/momo_button.png)](https://wordpress.org/plugins/momo-mobile-money-payments-woocommerce-extension/)
