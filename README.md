@@ -1,8 +1,8 @@
+# MOMO
 
-<center>
-<h1>MOMO</h1>
-  
-  <p>Receive mobile money payments on your website with WooCommerce + MOMO</p>
+Receive mobile money payments on your website with WooCommerce + MOMO
+
+<center>    
   
   <p>Find the most up-to-date version on <a href="https://wordpress.org/plugins/momo-mobile-money-payments-woocommerce-extension/" target="_blank">our official wordpress directory link</a></p>
   
