@@ -112,7 +112,7 @@ function wcmomo_settings_link( $links_array ){
 	array_unshift( $links_array, '<a href="' .  esc_url( admin_url( 'admin.php?page=wc-settings&tab=checkout&section=momo', __FILE__ ) ) . '">Settings</a>' );
 	
 	if ( !is_plugin_active( esc_url( plugins_url( 'wc-momo-pro/momo.php', dirname(__FILE__) ) ) ) ){
-		$links_array['momo_pro'] = sprintf('<a href="https://theafricanboss.com/momo/" target="_blank" style="color: #39b54a; font-weight: bold;"> Go Pro for <span style="text-decoration: line-through;">$29</span>, Now available at $19 </a>');
+		$links_array['momo_pro'] = sprintf('<a href="https://theafricanboss.com/momo/" target="_blank" style="color: #39b54a; font-weight: bold;"> Get Pro now available at $19 </a> | <a href="' . esc_html__( admin_url("admin.php?page=wcmomo_recommended_menu_page") ) . '" style="color: blue; font-weight: bold;">Recommended Plugins</a>');
 	}
 
 	return $links_array;
