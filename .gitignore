@@ -4,4 +4,7 @@
 
 momo-local/
 *.zip
+*.png
+*.jpg
+*.php
 .DS_Store
