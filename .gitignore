@@ -2,4 +2,9 @@ svn-local/
 readme.txt
 *.zip
 *.php
+*.jpg
+*.png
 .DS_Store
+!admin/*
+!assets/*
+!momo.php

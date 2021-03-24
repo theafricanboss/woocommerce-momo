@@ -24,6 +24,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+include_once( ABSPATH . 'wp-includes/pluggable.php');
+include_once( ABSPATH . 'wp-includes/option.php');
+
+define('WCMOMO_PLUGIN_DIR', plugin_dir_path(__FILE__) );
+define('WCMOMO_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
+define('WCMOMO_PLUGIN_DIR_URL', plugins_url( '/' , __FILE__ ));
+
 /**
  * WooCommerce fallback notice.
  * @return string
@@ -36,7 +44,6 @@ function wcmomo_missing_wc_notice() {
  * MOMO PRO notice.
  * @return string
  */
-include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 function wcmomo_pro_active_notice() {
 	echo '<div class="notice notice-warning is-dismissible"><p>MOMO PRO is currently active. If you need to activate the regular MOMO plugin, <strong>deactivate MOMO PRO first.</strong></p></div>';
 }
@@ -76,12 +83,27 @@ function wcmomo_review_notice() {
  * Dashboard Menu Button
  */
 function wcmomo_admin_menu(){
-	add_menu_page( null , 'MOMO' , 'manage_options' , 'wc-settings&tab=checkout&section=momo' , 'wcmomo_admin_menu' , 'dashicons-money-alt' );
-	add_submenu_page( 'wc-settings&tab=checkout&section=momo' , 'Feature my store' , 'Get Featured' , 'manage_options' , 'https://theafricanboss.com/momo#feature' , null, null );
-	add_submenu_page( 'wc-settings&tab=checkout&section=momo' , 'Upgrade MOMO' , '<span style="color:#99FFAA">Go Pro >> </span>' , 'manage_options' , 'https://theafricanboss.com/momo' , null, null );
-	add_submenu_page( 'wc-settings&tab=checkout&section=momo' , 'Review MOMO' , 'Review' , 'manage_options' , 'https://wordpress.org/support/plugin/momo-mobile-money-payments-woocommerce-extension/reviews/?filter=5' , null, null );
-	add_submenu_page( 'wc-settings&tab=checkout&section=momo' , 'Our Plugins' , '<span style="color:yellow">Our Plugins</span>' , 'manage_options' , 'https://profiles.wordpress.org/theafricanboss/#content-plugins' , null, null );
+	$parent_slug = 'wc-settings&tab=checkout&section=momo';
+	$capability = 'manage_options';
+	
+	add_menu_page( null , 'MOMO' , $capability , $parent_slug , 'wcmomo_admin_menu' , 'dashicons-money-alt' );
+	add_submenu_page( $parent_slug , 'Feature my store' , 'Get Featured' , $capability , 'https://theafricanboss.com/momo#feature' , null, null );
+	add_submenu_page( $parent_slug , 'Upgrade MOMO' , '<span style="color:#99FFAA">Go Pro >> </span>' , $capability , 'https://theafricanboss.com/momo' , null, null );
+	add_submenu_page( $parent_slug , 'Review MOMO' , 'Review' , $capability , 'https://wordpress.org/support/plugin/momo-mobile-money-payments-woocommerce-extension/reviews/?filter=5' , null, null );
+	add_submenu_page( $parent_slug , 'Our Plugins' , '<span style="color:yellow">Our Plugins</span>' , $capability  , 'wcmomo_recommended_menu_page' , 'wcmomo_recommended_menu_page', null );
+	add_submenu_page( $parent_slug , 'Tutorials' , 'Tutorials' , $capability  , 'wcmomo_tutorials_menu_page' , 'wcmomo_tutorials_menu_page', null );
+	// add_submenu_page( $parent_slug, $page_title, $menu_title, $capability, $menu_slug, callable $function = '', int $position = null )
 }
+add_action('admin_menu','wcmomo_admin_menu');
+
+function wcmomo_recommended_menu_page() {
+	require_once WCMOMO_PLUGIN_DIR . 'admin/recommended.php';
+}
+
+function wcmomo_tutorials_menu_page() {
+	require_once WCMOMO_PLUGIN_DIR . 'admin/tutorials.php';
+}
+
 
 /*
  * Settings Button
