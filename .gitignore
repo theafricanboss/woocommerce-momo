@@ -1,10 +1,5 @@
-!momo.php
-!README.md
-!assets/
-
-momo-local/
+svn-local/
+readme.txt
 *.zip
-*.png
-*.jpg
 *.php
 .DS_Store

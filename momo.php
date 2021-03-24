@@ -6,10 +6,10 @@
  * Author: The African Boss
  * Author URI: https://theafricanboss.com
  * Text Domain: wc-momo
- * Version: 3.0.6
+ * Version: 3.0.7
  * WC requires at least: 3.0.0
- * WC tested up to: 4.9.2
- * Version Date: Feb 9, 2020
+ * WC tested up to: 5.1.0
+ * Version Date: Mar 24, 2021
  * Created: 2019
  * Copyright 2020 theafricanboss.com All rights reserved
  */
@@ -90,7 +90,7 @@ function wcmomo_settings_link( $links_array ){
 	array_unshift( $links_array, '<a href="' .  esc_url( admin_url( 'admin.php?page=wc-settings&tab=checkout&section=momo', __FILE__ ) ) . '">Settings</a>' );
 	
 	if ( !is_plugin_active( esc_url( plugins_url( 'wc-momo-pro/momo.php', dirname(__FILE__) ) ) ) ){
-		$links_array['momo_pro'] = sprintf('<a href="https://theafricanboss.com/momo/" target="_blank" style="color: #39b54a; font-weight: bold;">' . esc_html__('Go Pro for $29','wc-momo') . '</a>');
+		$links_array['momo_pro'] = sprintf('<a href="https://theafricanboss.com/momo/" target="_blank" style="color: #39b54a; font-weight: bold;"> Go Pro for <span style="text-decoration: line-through;">$29</span>, Now available at $19 </a>');
 	}
 
 	return $links_array;
@@ -155,10 +155,10 @@ function wcmomo_init_gateway_class() {
 		// add_action( 'wp_enqueue_scripts' , array( $this , 'payment_scripts' ) );
 
 		//Thank you page
-		add_action( 'woocommerce_before_thankyou' , array( $this , 'thankyou_page' ) );
+		add_action( 'woocommerce_before_thankyou' , array( $this , 'wcmomo_thankyou_page' ) );
 
 		// Customer Emails.
-		add_action( 'woocommerce_email_before_order_table' , array( $this , 'instructions_sent' ), 10, 3 );
+		add_action( 'woocommerce_email_before_order_table' , array( $this , 'wcmomo_instructions_sent' ), 10, 3 );
 
 		}
 
@@ -294,14 +294,15 @@ function wcmomo_init_gateway_class() {
 			echo '<div class="form-row form-row-wide">
 			
 			<label for="' .  esc_attr( $MOMOApp ) . '">Payment Transfer Method used <span class="required">*</span></label>
-				<select id="' .  esc_attr( $MOMOApp ) . '" name="' .  esc_attr( $MOMOApp ) . '" style="width:95%; border:1px solid" type="text" autocomplete="off">
-					<option value="' , esc_attr( 'empty' ) , '">Please send ' , $total , ' through one of the choices below</option>
-					<option value="' , esc_attr( 'MOMO agent' ) , '">- A local/online MOMO Agent to ' , esc_html( wp_kses_post( $this->ReceiverMOMONo ) ) , ' registered under ' , esc_html( wp_kses_post( $this->ReceiverMOMONoOwner ) ) , '</option>
-					<option value="' , esc_attr( 'CashApp' ) , '">- Cash App to ' , esc_html( wp_kses_post( $this->ReceiverCashApp ) ) , ' registered under ' , esc_html( wp_kses_post( $this->ReceiverCashAppOwner ) ) , '</option>
-					<option value="' , esc_attr( 'Western Union' ) , '">- Western Union to ' , esc_html( wp_kses_post( $this->ReceiverMOMONoOwner ) ) , '</option>
-					<option value="' , esc_attr( 'Moneygram' ) , '">- MoneyGram to ' , esc_html( wp_kses_post( $this->ReceiverMOMONoOwner ) ) , '</option>
-					<option value="' , esc_attr( 'Worldremit' ) , '">- World Remit to ' , esc_html( wp_kses_post( $this->ReceiverMOMONoOwner ) ) , '</option>
-				</select>
+			<select id="' .  esc_attr( $MOMOApp ) . '" name="' .  esc_attr( $MOMOApp ) . '" style="width:95%; border:1px solid" type="text" autocomplete="off">
+				<option value="' , esc_attr( 'empty' ) , '">Please send ' , $total , ' through one of the choices below</option>
+				<option value="' , esc_attr( 'MOMO agent' ) , '">- A local/online MOMO Agent to ' , esc_html( wp_kses_post( $this->ReceiverMOMONo ) ) , ' registered under ' , esc_html( wp_kses_post( $this->ReceiverMOMONoOwner ) ) , '</option>
+				<option value="' , esc_attr( 'CashApp' ) , '">- Cash App to ' , esc_html( wp_kses_post( $this->ReceiverCashApp ) ) , ' registered under ' , esc_html( wp_kses_post( $this->ReceiverCashAppOwner ) ) , '</option>
+				<option value="' , esc_attr( 'Western Union' ) , '">- Western Union to ' , esc_html( wp_kses_post( $this->ReceiverMOMONoOwner ) ) , '</option>
+				<option value="' , esc_attr( 'Moneygram' ) , '">- MoneyGram to ' , esc_html( wp_kses_post( $this->ReceiverMOMONoOwner ) ) , '</option>
+				<option value="' , esc_attr( 'Worldremit' ) , '">- World Remit to ' , esc_html( wp_kses_post( $this->ReceiverMOMONoOwner ) ) , '</option>
+			</select>
+
 			</div>
 
 			<div class="form-row form-row-wide">
@@ -361,7 +362,7 @@ function wcmomo_init_gateway_class() {
 			echo '<div class="clear"></div></fieldset>';
 		}
 
-		public function thankyou_page( $order_id ) {
+		public function wcmomo_thankyou_page( $order_id ) {
 		
 			$order = wc_get_order( $order_id );
 			$total = $order->get_total();
@@ -383,7 +384,7 @@ function wcmomo_init_gateway_class() {
 		 * @param bool     $sent_to_admin Sent to admin.
 		 * @param bool     $plain_text Email format: plain text or HTML.
 		 */
-		public function instructions_sent( $order, $sent_to_admin, $plain_text = false ) {
+		public function wcmomo_instructions_sent( $order, $sent_to_admin, $plain_text = false ) {
 			
 			$MOMOApp = sanitize_text_field(trim($_POST[ 'MOMOApp' ]));
 			$CustomerMOMOName = sanitize_text_field(trim($_POST[ 'CustomerMOMOName' ]));
@@ -430,7 +431,7 @@ function wcmomo_init_gateway_class() {
 		/*
 		* Fields validation
 		*/
-		public function validate_fields() {
+		public function wcmomo_validate_fields() {
 			$customerPaymentMode = sanitize_text_field(trim($_POST[ 'MOMOApp' ]));
 			$customerMomoName = sanitize_text_field(trim($_POST[ 'CustomerMOMOName' ]));
 			$customerMomoNumber = sanitize_text_field(trim($_POST[ 'CustomerMOMONo' ]));
@@ -496,7 +497,7 @@ function wcmomo_init_gateway_class() {
 				$order->add_order_note( $note , true );
 				
 				// Mark as on-hold (we're awaiting the payment).
-				$order->update_status( apply_filters( 'woocommerce_momo_process_payment_order_status' , 'on-hold' , $order ), __( 'Checking for payment.<br>' , 'woocommerce' ) );
+				$order->update_status( apply_filters( 'wcmomo_process_payment_order_status' , 'on-hold' , $order ), __( 'Checking for payment.<br>' , 'woocommerce' ) );
 				
 				// Empty cart
 				$woocommerce->cart->empty_cart();
