@@ -1,3 +1,7 @@
 !momo.php
 !README.md
 !assets/
+
+momo-local/
+*.zip
+.DS_Store
