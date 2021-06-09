@@ -455,7 +455,7 @@ function wcmomo_init_gateway_class() {
 		/*
 		* Fields validation
 		*/
-		public function wcmomo_validate_fields() {
+		public function validate_fields() {
 			$customerPaymentMode = sanitize_text_field(trim($_POST[ 'MOMOApp' ]));
 			$customerMomoName = sanitize_text_field(trim($_POST[ 'CustomerMOMOName' ]));
 			$customerMomoNumber = sanitize_text_field(trim($_POST[ 'CustomerMOMONo' ]));
