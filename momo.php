@@ -413,8 +413,7 @@ function wcmomo_init_gateway_class() {
 			$CustomerMOMONo = sanitize_text_field(trim($_POST[ 'CustomerMOMONo' ]));
 			$MOMORefNo = sanitize_text_field(trim($_POST[ 'MOMORefNo' ]));
 			
-			if ( ! $sent_to_admin && 'momo' === $order->get_payment_method() ) {
-				
+			if ( 'on-hold' === $order->get_status() && 'momo' === $order->get_payment_method() ) {
 				echo '<h2>MOMO Details</h2>';
 			
 				echo '<p>We are checking our systems to confirm that we received the total requested amount.</p>' , 
@@ -506,6 +505,9 @@ function wcmomo_init_gateway_class() {
 				// reduce inventory
 				$order->reduce_order_stock();
 				
+				// Mark as on-hold (we're awaiting the payment).
+				$order->update_status( apply_filters( 'wcmomo_process_payment_order_status' , 'on-hold' , $order ), __( 'Checking for payment.<br>' , 'woocommerce' ) );
+				
 				$note = '<p>Your order request was received!</p>' .
 				'<p>In the meantime, here are the details we received from <strong style="text-transform:uppercase;">' . 
 				esc_html( $CustomerMOMOName ) . '</strong></p> <p>A payment was sent through <strong>' .  
@@ -516,10 +518,9 @@ function wcmomo_init_gateway_class() {
 				'<p>You will be updated regarding your order details soon.</p>';
 			
 				// some notes to customer (replace true with false to make it private)
-				$order->add_order_note( $note , true );
-				
-				// Mark as on-hold (we're awaiting the payment).
-				$order->update_status( apply_filters( 'wcmomo_process_payment_order_status' , 'on-hold' , $order ), __( 'Checking for payment.<br>' , 'woocommerce' ) );
+				if ( 'momo' === $order->get_payment_method() ) {
+					$order->add_order_note( $note , true );
+				}
 				
 				// Empty cart
 				$woocommerce->cart->empty_cart();
