@@ -2,14 +2,14 @@
 /*
  * Plugin Name: MOMO - Mobile Money Payments Woocommerce Extension
  * Plugin URI: https://theafricanboss.com/momo
- * Description: Receive mobile money payments from any country and carrier on your website with WooCommerce + MOMO (Use for MOMO, Cash App, Western Union, MoneyGram)
+ * Description: Receive mobile money payments from any country and carrier on your website with WooCommerce + MOMO (Use for MOMO, Western Union, MoneyGram)
  * Author: The African Boss
  * Author URI: https://theafricanboss.com
  * Text Domain: wc-momo
- * Version: 3.0.7
+ * Version: 3.0.8
  * WC requires at least: 3.0.0
- * WC tested up to: 5.1.0
- * Version Date: Mar 24, 2021
+ * WC tested up to: 5.4.0
+ * Version Date: June 9, 2021
  * Created: 2019
  * Copyright 2020 theafricanboss.com All rights reserved
  */
@@ -143,7 +143,7 @@ function wcmomo_init_gateway_class() {
 		$this->id = 'momo'; // payment gateway plugin ID
 		$this->icon = ''; // URL of the icon that will be displayed on checkout page near your gateway name
 		$this->has_fields = true; // in case you need a custom form
-		$this->method_title = 'MOMO - Easy Mobile Money Payments (MOMO, Cash App, Western Union, MoneyGram)';
+		$this->method_title = 'MOMO - Easy Mobile Money Payments (MOMO, Western Union, MoneyGram)';
 		$this->method_description = 'Easily receive mobile money payments'; // will be displayed on the options page
 
 		// gateways can support subscriptions, refunds, saved payment methods
@@ -201,8 +201,8 @@ function wcmomo_init_gateway_class() {
 					'title'       => 'Checkout Title',
 					'type'        => 'text',
 					'description' => 'This is the title which the user sees on the checkout page.',
-					'default'     => 'MOMO, Cash App, Western Union, MoneyGram',
-					'placeholder' => 'MOMO - Easy Mobile Money Payments (MOMO, Cash App, Western Union, MoneyGram)',
+					'default'     => 'MOMO, Western Union, MoneyGram',
+					'placeholder' => 'MOMO - Easy Mobile Money Payments (MOMO, Western Union, MoneyGram)',
 				),
 				'ReceiverMOMONo' => array(
 					'title'       => 'Receiver Mobile Money No',
@@ -217,17 +217,21 @@ function wcmomo_init_gateway_class() {
 					'placeholder' => "John D",
 				),
 				'ReceiverCashApp' => array(
-					'title'       => 'Receiver Cash App Account',
+					'title'       => 'Receiver Cash App Account - MOVED TO OUR <a style="text-decoration:none" href="https://theafricanboss.com/whats-changing-for-our-plugins/" target="_blank"><sup>STANDALONE CASHAPP PLUGIN</sup></a>',
 					'type'        => 'text',
-					'description' => 'This is the Cash App account associated with your store Cash App account. Customers will send money to this Cash App account',
+					'description' => 'NO LONGER SUPPORTED. MOVED TO OUR CASHAPP PLUGIN',
 					'default'     => '$',
 					'placeholder' => '$cashTag',
+					'css'     => 'width:80%; pointer-events: none;',
+					'class'     => 'disabled',
 				),
 				'ReceiverCashAppOwner' => array(
-					'title'       => "Receiver Cash App Owner's Name",
+					'title'       => 'Receiver Cash App Owner\'s Name - MOVED TO OUR <a style="text-decoration:none" href="https://theafricanboss.com/whats-changing-for-our-plugins/" target="_blank"><sup>STANDALONE CASHAPP PLUGIN</sup></a>',
 					'type'        => 'text',
-					'description' => 'This is the name associated with your store Cash App account. Customers will send money to this Cash App account name',
+					'description' => 'NO LONGER SUPPORTED. MOVED TO OUR CASHAPP PLUGIN',
 					'placeholder' => 'Jane D',
+					'css'     => 'width:80%; pointer-events: none;',
+					'class'     => 'disabled',
 				),
 				'ReceiverMOMOEmail' => array(
 					'title'       => "Receiver Mobile Money Owner's Email",
@@ -239,7 +243,7 @@ function wcmomo_init_gateway_class() {
 					'title'       => 'Checkout Page Notice <a style="text-decoration:none" href="https://theafricanboss.com/momo/" target="_blank"><sup style="color:red">PRO</sup></a>',
 					'type'        => 'textarea',
 					'description' => 'This is the description which the user sees during checkout. <a style="text-decoration:none" href="https://theafricanboss.com/momo/" target="_blank">EDIT WITH PRO</a>',
-					'default'     => 'Use an online mobile money platform (CashApp, Western Union, Moneygram, WorldRemit) or via a local/online mobile money agent.',
+					'default'     => 'Use an online mobile money platform (Western Union, Moneygram, WorldRemit) or via a local/online mobile money agent.',
 					'css'     => 'width:80%; pointer-events: none;',
 					'class'     => 'disabled',
 				),
@@ -309,7 +313,7 @@ function wcmomo_init_gateway_class() {
 			
 			echo '<p>Please select your mobile money payment method to send the ' , $total , '.</p>';
 			
-			echo '<p>Use an online mobile money platform (CashApp, Western Union, Moneygram, WorldRemit) or via a local/online mobile money agent.</p><br>';
+			echo '<p>Use an online mobile money platform (Western Union, Moneygram, WorldRemit) or via a local/online mobile money agent.</p><br>';
 			
 			echo '<p>Please fill these fields out below to confirm that you have sent the total requested amount.</p><br>';
 
@@ -319,7 +323,6 @@ function wcmomo_init_gateway_class() {
 			<select id="' .  esc_attr( $MOMOApp ) . '" name="' .  esc_attr( $MOMOApp ) . '" style="width:95%; border:1px solid" type="text" autocomplete="off">
 				<option value="' , esc_attr( 'empty' ) , '">Please send ' , $total , ' through one of the choices below</option>
 				<option value="' , esc_attr( 'MOMO agent' ) , '">- A local/online MOMO Agent to ' , esc_html( wp_kses_post( $this->ReceiverMOMONo ) ) , ' registered under ' , esc_html( wp_kses_post( $this->ReceiverMOMONoOwner ) ) , '</option>
-				<option value="' , esc_attr( 'CashApp' ) , '">- Cash App to ' , esc_html( wp_kses_post( $this->ReceiverCashApp ) ) , ' registered under ' , esc_html( wp_kses_post( $this->ReceiverCashAppOwner ) ) , '</option>
 				<option value="' , esc_attr( 'Western Union' ) , '">- Western Union to ' , esc_html( wp_kses_post( $this->ReceiverMOMONoOwner ) ) , '</option>
 				<option value="' , esc_attr( 'Moneygram' ) , '">- MoneyGram to ' , esc_html( wp_kses_post( $this->ReceiverMOMONoOwner ) ) , '</option>
 				<option value="' , esc_attr( 'Worldremit' ) , '">- World Remit to ' , esc_html( wp_kses_post( $this->ReceiverMOMONoOwner ) ) , '</option>
