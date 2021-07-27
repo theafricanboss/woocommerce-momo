@@ -3,19 +3,19 @@ Contributors: theafricanboss
 Donate Link: https://theafricanboss.com
 Tags: momo, woocommerce, mobile money, money transfer, cashapp, western union, moneygram, world remit, mtn, vodacom
 Requires at least: 4.0
-Tested up to: 5.7
-Stable tag: 3.0.7
+Tested up to: 5.7.2
+Stable tag: 3.0.8
 Requires PHP: 5.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-Receive mobile money payments from any country and carrier on your website with WooCommerce + MOMO (Use for MOMO, Cash App, Western Union, MoneyGram)
+Receive mobile money payments from any country and carrier on your website with WooCommerce + MOMO (Use for MOMO, Western Union, MoneyGram)
 
 == Description ==
 
 **MOMO - Mobile Money Payments WooCommerce Extension**
 
-MOMO - Easy Mobile Money Payments via WooCommerce (MOMO, Cash App, Western Union, MoneyGram)
+MOMO - Easy Mobile Money Payments via WooCommerce (MOMO, Western Union, MoneyGram)
 
 For more details about this woocommerce extension, **please visit [The African Boss](https://theafricanboss.com/momo)**
 
@@ -88,20 +88,25 @@ Please check screenshots for more details on what is reported.
 
 == Changelog ==
 
-= 3.0.7 Mar 24, 2020 =
+= 3.0.8 Mar 24, 2021 =
+* Cashapp option no longer supported. Moved to our standalone Cashapp plugin
+* Send specific notices while awaiting payment with $order->get_status() &&  $order->get_payment_method()
+* Updated WP and WC compatibility
+
+= 3.0.7 Mar 24, 2021 =
 * Added admin pages: recommended plugins and tutorials
 * Added recommended plugins button next to deactivate button
 * Updated price for PRO to $19
 * Updated the readme file with reason of recent low rating for transparency
 * Updated compatible WordPress and WooCommerce versions
 
-= 3.0.6 Feb 9, 2020 =
+= 3.0.6 Feb 9, 2021 =
 * Fixed a bug. A line of code was missing include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 * Very sorry for the incovenience
 * Updated the readme file with reason of recent low rating for transparency
 * Updated compatible WordPress and WooCommerce versions
 
-= 3.0.5 Jan 14, 2020 =
+= 3.0.5 Jan 14, 2021 =
 * Compatible with WP v5.6
 
 = 3.0.4 Dec 1, 2020 =
