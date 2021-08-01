@@ -19,7 +19,7 @@ MOMO - Easy Mobile Money Payments via WooCommerce (MOMO, Western Union, MoneyGra
 
 For more details about this woocommerce extension, **please visit [The African Boss](https://theafricanboss.com/momo)**
 
-See available screenshots or the store example of [Gura Stores](https://gurastores.com/) for visual details.
+See available screenshots or the store example of [Gura Stores](https://gurastores.com/test/) for visual details.
 
 = PRO or customized version =
 
@@ -33,14 +33,14 @@ Upgrades include **adding multiple numbers, different carriers, and more**
 
 An example of the plugin in use is the following store:
 
-[Gura Stores](https://gurastores.com/)
+[Gura Stores](https://gurastores.com/test/)
 
 
 = Compatible or Available Countries =
 
 This plugin is compatible with **any carrier in any country** since all it does is report details of a mobile money transaction between a customer and a store owner.
 
-See the screenshots or the store example of [Gura Stores](https://gurastores.com/) for visual details.
+See the screenshots or the store example of [Gura Stores](https://gurastores.com/test/) for visual details.
 
 
 == Installation ==
