@@ -4,7 +4,7 @@ Donate Link: https://theafricanboss.com
 Tags: momo, woocommerce, mobile money, money transfer, cashapp, western union, moneygram, world remit, mtn, vodacom
 Requires at least: 4.0
 Tested up to: 5.7.2
-Stable tag: 3.0.8
+Stable tag: trunk
 Requires PHP: 5.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -61,7 +61,7 @@ See the screenshots or the store example of [Gura Stores](https://gurastores.com
 
 = After Plugin Activation =
 
-Find MOMO in your admin dashboard left sidebar menu of buttons 
+Find MOMO in your admin dashboard left sidebar menu of buttons
 
 **or**
 
@@ -127,7 +127,7 @@ Please check screenshots for more details on what is reported.
 
 = 3.0.1 Jun 1, 2020 =
 * Updated validation fields detailing all validation errors such as phone number too short, too long, invalid, etc
-* Admins with a PRO version can edit the text on top of the MOMO checkout form 
+* Admins with a PRO version can edit the text on top of the MOMO checkout form
 * Admins with a PRO version can edit notices on the thank you page, and customer emails
 * Admins with a PRO version can add additional store instructions
 * Without the PRO account, the default will be applied
@@ -135,9 +135,9 @@ Please check screenshots for more details on what is reported.
 
 = 3.0.0 May 1, 2020 =
 * Updated select fields that needed spacing
-* Edited the note sent to customers in the email also the same note is added under orders in wp-admin 
+* Edited the note sent to customers in the email also the same note is added under orders in wp-admin
 * Added a field for additional store instructions that the store owner may use to add any instructions or any additional stuff they need
-* Store instructions will be displayed on the thank you page and will also be sent in email to customer 
+* Store instructions will be displayed on the thank you page and will also be sent in email to customer
 
 = 2.6.0 =
 * Removed input field for transferred money
