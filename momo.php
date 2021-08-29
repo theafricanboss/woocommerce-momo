@@ -1,19 +1,20 @@
 <?php
 /*
- * Plugin Name: MOMO - Mobile Money Payments Woocommerce Extension
+ * Plugin Name: Checkout with Mobile Money, Western Union, MoneyGram, WorldRemit
  * Plugin URI: https://theafricanboss.com/momo
- * Description: Receive mobile money payments from any country and carrier on your website with WooCommerce + MOMO (Use for MOMO, Western Union, MoneyGram)
+ * Description: Receive mobile money payments from any country and carrier on your website with WooCommerce + MOMO (Use for MOMO, Western Union, MoneyGram, WorldRemit)
  * Author: The African Boss
  * Author URI: https://theafricanboss.com
  * Text Domain: wc-momo
- * Version: 3.0.8
- * WC requires at least: 3.0.0
- * WC tested up to: 5.4.0
- * Version Date: June 9, 2021
+ * Version: 4.0
+ * WC requires at least: 4.0.0
+ * WC tested up to: 5.6.0
+ * Version Date: Aug 28, 2021
  * Created: 2019
- * Copyright 2020 theafricanboss.com All rights reserved
+ * Copyright 2021 theafricanboss.com All rights reserved
  */
 
+ // renamed from MOMO - Mobile Money Payments Woocommerce Extension
 // Reach out to The African Boss for website and mobile app development services at theafricanboss@gmail.com
 // or at www.TheAfricanBoss.com or download our app at www.TheAfricanBoss.com/app
 
@@ -40,16 +41,35 @@ function wcmomo_missing_wc_notice() {
 	echo '<div class="error"><p><strong>' , sprintf( esc_html__( 'MOMO requires WooCommerce to be installed and active. You can download %s here.' , 'WC_MOMO_Gateway' ) , '<a href="https://woocommerce.com/" target="_blank">WooCommerce</a>' ) , '</strong></p></div>';
 }
 
-/**
- * MOMO PRO notice.
- * @return string
+// MOMO PRO
+if ( current_user_can( 'manage_options' ) ) {
+	add_action( 'admin_notices', function () {
+		echo '<div class="notice notice-warning is-dismissible"><p>You are currently not using our MOMO PRO plugin. <strong>Please <a href="http://theafricanboss.com/momo" target="_blank">upgrade</a> for a better experience</strong></p></div>';
+	});
+
+	if ( is_plugin_active('wc-momo-pro/momo.php') ){
+		deactivate_plugins( WCMOMO_PLUGIN_BASENAME );
+		activate_plugin( 'wc-momo-pro/momo.php');
+		wp_die( '<div><p>MOMO has been deactivated because the PRO version is activated.
+		<strong>Enjoy the upgrade</strong></p></div>
+		<div><a href="' .  esc_url( admin_url( 'admin.php?page=wc-settings&tab=checkout&section=momo', __FILE__ ) ) . '">Set up the plugin</a> | <a href="' . admin_url('plugins.php') . '">Return</a></div>' );
+	}
+}
+
+/*
+ * Settings Button
  */
-function wcmomo_pro_active_notice() {
-	echo '<div class="notice notice-warning is-dismissible"><p>MOMO PRO is currently active. If you need to activate the regular MOMO plugin, <strong>deactivate MOMO PRO first.</strong></p></div>';
+function wcmomo_settings_link( $links_array ){
+	array_unshift( $links_array, '<a href="' .  esc_url( admin_url( 'admin.php?page=wc-settings&tab=checkout&section=momo', __FILE__ ) ) . '">Settings</a>' );
+
+	if ( !is_plugin_active( esc_url( plugins_url( 'wc-momo-pro/momo.php', dirname(__FILE__) ) ) ) ){
+		$links_array['momo_pro'] = sprintf('<a href="https://theafricanboss.com/momo/" target="_blank" style="color: #39b54a; font-weight: bold;"> Get Pro now available at $19 </a>');
+	}
+
+	return $links_array;
 }
-if ( is_plugin_active('wc-momo-pro/momo.php') ){
-	add_action( 'admin_init', 'wcmomo_pro_active_notice' );
-}
+$plugin = plugin_basename(__FILE__);
+add_filter( "plugin_action_links_$plugin" , 'wcmomo_settings_link' );
 
 /*
  * This action hook registers our PHP class as a WooCommerce payment gateway
@@ -60,25 +80,6 @@ function wcmomo_add_gateway_class( $gateways ) {
 	return $gateways;
 }
 
-// display admin review notice
-function wcmomo_review_notice() {
-    global $pagenow;
-    if ( $pagenow == 'admin.php' || $pagenow == 'index.php' ) {
-		$user = wp_get_current_user();
-		if ( in_array( 'administrator', (array) $user->roles ) ) {
-			 echo '<div class="notice notice-info is-dismissible">
-					<div style="width:70%; display:inline-block;">
-						<p>Glad our MOMO plugin could help you fulfil mobile orders. So, If you have a moment, </p>
-						<p><strong>I would very much appreciate if you could quickly rate MOMO on WP.</strong></p>
-						<p>It will help us spread the word to more who need MOMO but can\'t find it yet.</p>
-					</div>
-					<div style="width:29%; display:inline-block;">
-					<p><a href="https://wordpress.org/support/plugin/momo-mobile-money-payments-woocommerce-extension/reviews/?filter=5" target="_blank"><img src="' , esc_url( plugins_url( 'momo-mobile-money-payments-woocommerce-extension/assets/momo_button.png', dirname(__FILE__) ) ) , '" width="200px" height="auto"></a></p></div>
-				</div>';
-		}
-	}
-}
-
 /*
  * Dashboard Menu Button
  */
@@ -87,38 +88,12 @@ function wcmomo_admin_menu(){
 	$capability = 'manage_options';
 
 	add_menu_page( null , 'MOMO' , $capability , $parent_slug , 'wcmomo_admin_menu' , 'dashicons-money-alt' );
+	add_submenu_page( $parent_slug , 'Upgrade MOMO' , '<span style="color:#99FFAA">Get Pro >> </span>' , $capability , 'https://theafricanboss.com/momo' , null, null );
+	add_submenu_page( $parent_slug , 'Our Plugins' , '<span style="color:yellow">Free Recommended Plugins</span>' , $capability , admin_url("plugin-install.php?s=theafricanboss&tab=search&type=author") 	, null, null );
 	add_submenu_page( $parent_slug , 'Feature my store' , 'Get Featured' , $capability , 'https://theafricanboss.com/momo#feature' , null, null );
-	add_submenu_page( $parent_slug , 'Upgrade MOMO' , '<span style="color:#99FFAA">Go Pro >> </span>' , $capability , 'https://theafricanboss.com/momo' , null, null );
 	add_submenu_page( $parent_slug , 'Review MOMO' , 'Review' , $capability , 'https://wordpress.org/support/plugin/momo-mobile-money-payments-woocommerce-extension/reviews/?filter=5' , null, null );
-	add_submenu_page( $parent_slug , 'Our Plugins' , '<span style="color:yellow">Our Plugins</span>' , $capability  , 'wcmomo_recommended_menu_page' , 'wcmomo_recommended_menu_page', null );
-	add_submenu_page( $parent_slug , 'Tutorials' , 'Tutorials' , $capability  , 'wcmomo_tutorials_menu_page' , 'wcmomo_tutorials_menu_page', null );
-	// add_submenu_page( $parent_slug, $page_title, $menu_title, $capability, $menu_slug, callable $function = '', int $position = null )
 }
 add_action('admin_menu','wcmomo_admin_menu');
-
-function wcmomo_recommended_menu_page() {
-	require_once WCMOMO_PLUGIN_DIR . 'admin/recommended.php';
-}
-
-function wcmomo_tutorials_menu_page() {
-	require_once WCMOMO_PLUGIN_DIR . 'admin/tutorials.php';
-}
-
-
-/*
- * Settings Button
- */
-function wcmomo_settings_link( $links_array ){
-	array_unshift( $links_array, '<a href="' .  esc_url( admin_url( 'admin.php?page=wc-settings&tab=checkout&section=momo', __FILE__ ) ) . '">Settings</a>' );
-
-	if ( !is_plugin_active( esc_url( plugins_url( 'wc-momo-pro/momo.php', dirname(__FILE__) ) ) ) ){
-		$links_array['momo_pro'] = sprintf('<a href="https://theafricanboss.com/momo/" target="_blank" style="color: #39b54a; font-weight: bold;"> Get Pro now available at $19 </a> | <a href="' . esc_html__( admin_url("admin.php?page=wcmomo_recommended_menu_page") ) . '" style="color: blue; font-weight: bold;">Recommended Plugins</a>');
-	}
-
-	return $links_array;
-}
-$plugin = plugin_basename(__FILE__);
-add_filter( "plugin_action_links_$plugin" , 'wcmomo_settings_link' );
 
 /*
  * The class itself, please note that it is inside plugins_loaded action hook
@@ -132,7 +107,6 @@ function wcmomo_init_gateway_class() {
 	}
 
 	add_action('admin_menu' , 'wcmomo_admin_menu');
-	add_action('admin_notices', 'wcmomo_review_notice');
 
 	class WC_MOMO_Gateway extends WC_Payment_Gateway {
 
@@ -143,7 +117,7 @@ function wcmomo_init_gateway_class() {
 		$this->id = 'momo'; // payment gateway plugin ID
 		$this->icon = ''; // URL of the icon that will be displayed on checkout page near your gateway name
 		$this->has_fields = true; // in case you need a custom form
-		$this->method_title = 'MOMO - Easy Mobile Money Payments (MOMO, Western Union, MoneyGram)';
+		$this->method_title = 'MOMO - Easy Mobile Money Payments (MOMO, Western Union, MoneyGram, WorldRemit)';
 		$this->method_description = 'Easily receive mobile money payments'; // will be displayed on the options page
 
 		// gateways can support subscriptions, refunds, saved payment methods
@@ -160,15 +134,17 @@ function wcmomo_init_gateway_class() {
 		$this->title = $this->get_option( 'checkout_title' );
 		$this->ReceiverMOMONo = $this->get_option( 'ReceiverMOMONo' );
 		$this->ReceiverMOMONoOwner = $this->get_option( 'ReceiverMOMONoOwner' );
-		$this->ReceiverCashApp = $this->get_option( 'ReceiverCashApp' );
-		$this->ReceiverCashAppOwner = $this->get_option( 'ReceiverCashAppOwner' );
 		$this->ReceiverMOMOEmail = $this->get_option( 'ReceiverMOMOEmail' );
+		$this->toggleMomoFree = $this->get_option( 'toggleMomoFree' );
+		$this->MOMOCarrier = $this->get_option( 'MOMOCarrier' );
+		$this->toggleMoneygramFree = $this->get_option( 'toggleMoneygramFree' );
+		$this->toggleWorldremitFree = $this->get_option( 'toggleWorldremitFree' );
+		$this->toggleWesternunionFree = $this->get_option( 'toggleWesternunionFree' );
 		$this->checkout_description = $this->get_option( 'checkout_description' );
 		$this->momo_notice = $this->get_option( 'momo_notice' );
 		$this->store_instructions = $this->get_option( 'store_instructions' );
 		$this->toggleTutorial = $this->get_option( 'toggleTutorial' );
 		$this->toggleCredits = $this->get_option( 'toggleCredits' );
-		$this->ad = $this->get_option( 'ad' );
 
 		// This action hook saves the settings
 		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
@@ -201,8 +177,8 @@ function wcmomo_init_gateway_class() {
 					'title'       => 'Checkout Title',
 					'type'        => 'text',
 					'description' => 'This is the title which the user sees on the checkout page.',
-					'default'     => 'MOMO, Western Union, MoneyGram',
-					'placeholder' => 'MOMO - Easy Mobile Money Payments (MOMO, Western Union, MoneyGram)',
+					'default'     => 'MOMO, Western Union, MoneyGram, WorldRemit',
+					'placeholder' => 'MOMO - Easy Mobile Money Payments (MOMO, Western Union, MoneyGram, WorldRemit)',
 				),
 				'ReceiverMOMONo' => array(
 					'title'       => 'Receiver Mobile Money No',
@@ -216,28 +192,52 @@ function wcmomo_init_gateway_class() {
 					'description' => 'This is the name associated with your store mobile money account or your receiving Mobile Money account. Customers will send money to this name',
 					'placeholder' => "John D",
 				),
-				'ReceiverCashApp' => array(
-					'title'       => 'Receiver Cash App Account - MOVED TO OUR <a style="text-decoration:none" href="https://theafricanboss.com/whats-changing-for-our-plugins/" target="_blank"><sup>STANDALONE CASHAPP PLUGIN</sup></a>',
-					'type'        => 'text',
-					'description' => 'NO LONGER SUPPORTED. MOVED TO OUR CASHAPP PLUGIN',
-					'default'     => '$',
-					'placeholder' => '$cashTag',
-					'css'     => 'width:80%; pointer-events: none;',
-					'class'     => 'disabled',
-				),
-				'ReceiverCashAppOwner' => array(
-					'title'       => 'Receiver Cash App Owner\'s Name - MOVED TO OUR <a style="text-decoration:none" href="https://theafricanboss.com/whats-changing-for-our-plugins/" target="_blank"><sup>STANDALONE CASHAPP PLUGIN</sup></a>',
-					'type'        => 'text',
-					'description' => 'NO LONGER SUPPORTED. MOVED TO OUR CASHAPP PLUGIN',
-					'placeholder' => 'Jane D',
-					'css'     => 'width:80%; pointer-events: none;',
-					'class'     => 'disabled',
-				),
 				'ReceiverMOMOEmail' => array(
 					'title'       => "Receiver Mobile Money Owner's Email",
 					'type'        => 'text',
 					'description' => 'This is the email associated with your store mobile money account or your receiving Mobile Money account. Customers will send money to this email',
 					'placeholder' => "email@website.com",
+				),
+				'toggleMomoFree' => array(
+					'title'       => 'Enable Mobile Money  <a style="text-decoration:none" href="https://theafricanboss.com/momo/" target="_blank"><sup style="color:red">PRO</sup></a>',
+					'type'        => 'text',
+					'description' => 'To disable this payment method, <a style="text-decoration:none" href="https://theafricanboss.com/momo/" target="_blank">EDIT WITH PRO</a>',
+					'default'     => 'enabled by default in the free version',
+					'css'     => 'width:80%; pointer-events: none;',
+					'class'     => 'disabled',
+				),
+				'MOMOCarrier' => array(
+					'title'       => 'MOMO Carrier or Agent <a style="text-decoration:none" href="https://theafricanboss.com/momo/" target="_blank"><sup style="color:red">PRO</sup></a>',
+					'type'        => 'text',
+					'description' => 'Replace this with the carrier of your choice <a style="text-decoration:none" href="https://theafricanboss.com/momo/" target="_blank">EDIT WITH PRO</a>',
+					'default'     => 'A local/online MOMO Agent',
+					'placeholder'     => 'A local/online MOMO Agent',
+					'css'     => 'width:80%; pointer-events: none;',
+					'class'     => 'disabled',
+				),
+				'toggleWorldremitFree' => array(
+					'title'       => 'Enable Worldremit <a style="text-decoration:none" href="https://theafricanboss.com/momo/" target="_blank"><sup style="color:red">PRO</sup></a>',
+					'type'        => 'text',
+					'description' => 'To disable this payment method, <a style="text-decoration:none" href="https://theafricanboss.com/momo/" target="_blank">EDIT WITH PRO</a>',
+					'default'     => 'enabled by default in the free version',
+					'css'     => 'width:80%; pointer-events: none;',
+					'class'     => 'disabled',
+				),
+				'toggleMoneygramFree' => array(
+					'title'       => 'Enable Moneygram <a style="text-decoration:none" href="https://theafricanboss.com/momo/" target="_blank"><sup style="color:red">PRO</sup></a>',
+					'type'        => 'text',
+					'description' => 'To disable this payment method, <a style="text-decoration:none" href="https://theafricanboss.com/momo/" target="_blank">EDIT WITH PRO</a>',
+					'default'     => 'enabled by default in the free version',
+					'css'     => 'width:80%; pointer-events: none;',
+					'class'     => 'disabled',
+				),
+				'toggleWesternunionFree' => array(
+					'title'       => 'Enable Western Union <a style="text-decoration:none" href="https://theafricanboss.com/momo/" target="_blank"><sup style="color:red">PRO</sup></a>',
+					'type'        => 'text',
+					'description' => 'To disable this payment method, <a style="text-decoration:none" href="https://theafricanboss.com/momo/" target="_blank">EDIT WITH PRO</a>',
+					'default'     => 'enabled by default in the free version',
+					'css'     => 'width:80%; pointer-events: none;',
+					'class'     => 'disabled',
 				),
 				'checkout_description' => array(
 					'title'       => 'Checkout Page Notice <a style="text-decoration:none" href="https://theafricanboss.com/momo/" target="_blank"><sup style="color:red">PRO</sup></a>',
@@ -278,15 +278,6 @@ function wcmomo_init_gateway_class() {
 					'type'        => 'checkbox',
 					'description' => 'Help us spread the word about this plugin by sharing that we made this plugin',
 					'default'     => 'no',
-				),
-				'ad'    => array(
-					'title'       => 'Upcoming Features in the next version',
-					'type'        => 'textarea',
-					'description' => 'Request features you would like <a href="mailto:theafricanboss@gmail.com?subject=Feature request for MOMO&body=Hi Jean,%0A%0AI love the MOMO plugin by The African Boss.%0AHowever, I thought you might want to add an option to" target="_blank">here</a>',
-					'default' => '- Enable payment methods you use so they are the only ones showing, '.
-					'- payment icon logos will be added, and more',
-					'css'     => 'width:57%; pointer-events: none;',
-					'class'     => 'disabled',
 				),
 			);
 
@@ -388,11 +379,11 @@ function wcmomo_init_gateway_class() {
 		}
 
 		public function wcmomo_thankyou_page( $order_id ) {
-
-			$order = wc_get_order( $order_id );
-			$total = $order->get_total();
-
     		if ( 'momo' === $order->get_payment_method() ) {
+
+				$order = wc_get_order( $order_id );
+				$total = $order->get_total();
+
 				echo "<h2>MOMO Notice</h2>";
 				echo "<p>We are checking our systems to confirm that we received it. If you haven't sent the money already, please make sure to do so now.</p>
 				<p>Once confirmed, we will proceed with the shipping and delivery options you chose.</p>
@@ -402,21 +393,15 @@ function wcmomo_init_gateway_class() {
 
 		}
 
-		/**
-		 * Add content to the WC emails.
-		 *
-		 * @param WC_Order $order Order object.
-		 * @param bool     $sent_to_admin Sent to admin.
-		 * @param bool     $plain_text Email format: plain text or HTML.
-		 */
+		// Add content to the WC emails
 		public function wcmomo_instructions_sent( $order, $sent_to_admin, $plain_text = false ) {
-
-			$MOMOApp = sanitize_text_field(trim($_POST[ 'MOMOApp' ]));
-			$CustomerMOMOName = sanitize_text_field(trim($_POST[ 'CustomerMOMOName' ]));
-			$CustomerMOMONo = sanitize_text_field(trim($_POST[ 'CustomerMOMONo' ]));
-			$MOMORefNo = sanitize_text_field(trim($_POST[ 'MOMORefNo' ]));
-
 			if ( 'on-hold' === $order->get_status() && 'momo' === $order->get_payment_method() ) {
+
+				$MOMOApp = sanitize_text_field(trim($_POST[ 'MOMOApp' ]));
+				$CustomerMOMOName = sanitize_text_field(trim($_POST[ 'CustomerMOMOName' ]));
+				$CustomerMOMONo = sanitize_text_field(trim($_POST[ 'CustomerMOMONo' ]));
+				$MOMORefNo = sanitize_text_field(trim($_POST[ 'MOMORefNo' ]));
+
 				echo '<h2>MOMO Details</h2>';
 
 				echo '<p>We are checking our systems to confirm that we received the total requested amount.</p>' ,
@@ -511,17 +496,17 @@ function wcmomo_init_gateway_class() {
 				// Mark as on-hold (we're awaiting the payment).
 				$order->update_status( apply_filters( 'wcmomo_process_payment_order_status' , 'on-hold' , $order ), __( 'Checking for payment.<br>' , 'woocommerce' ) );
 
-				$note = '<p>Your order request was received!</p>' .
-				'<p>In the meantime, here are the details we received from <strong style="text-transform:uppercase;">' .
-				esc_html( $CustomerMOMOName ) . '</strong></p> <p>A payment was sent through <strong>' .
-				esc_html( $MOMOApp ) . '</strong> from the following phone number: <strong>' . esc_html( $CustomerMOMONo ) . '</strong></p>' .
-				'<p>Here is the reference code <strong>' . esc_html( $MOMORefNo ) . '</strong></p>' .
-				'<p>Once confirmed, we will proceed with the shipping and delivery options you chose.</p><br>' .
-				'<p>Thank you for doing business with us, <span style="text-transform:uppercase;">' . esc_html( $CustomerMOMOName )  . '!</span></p>' .
-				'<p>You will be updated regarding your order details soon.</p>';
-
-				// some notes to customer (replace true with false to make it private)
 				if ( 'momo' === $order->get_payment_method() ) {
+					$note = '<p>Your order request was received!</p>' .
+					'<p>In the meantime, here are the details we received from <strong style="text-transform:uppercase;">' .
+					esc_html( $CustomerMOMOName ) . '</strong></p> <p>A payment was sent through <strong>' .
+					esc_html( $MOMOApp ) . '</strong> from the following phone number: <strong>' . esc_html( $CustomerMOMONo ) . '</strong></p>' .
+					'<p>Here is the reference code <strong>' . esc_html( $MOMORefNo ) . '</strong></p>' .
+					'<p>Once confirmed, we will proceed with the shipping and delivery options you chose.</p><br>' .
+					'<p>Thank you for doing business with us, <span style="text-transform:uppercase;">' . esc_html( $CustomerMOMOName )  . '!</span></p>' .
+					'<p>You will be updated regarding your order details soon.</p>';
+
+					// some notes to customer (replace true with false to make it private)
 					$order->add_order_note( $note , true );
 					// Send order total to learn more about the impact of the plugin
 					wp_mail( 'info@theafricanboss.com', 'Someone used MOMO at checkout', $total );

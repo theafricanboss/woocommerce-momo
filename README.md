@@ -9,7 +9,7 @@
   <h3 align="center">MOMO - Mobile Money Payment Woocommerce Extension</h3>
 
   <p align="center">
-    Receive mobile money payments from any country and carrier on your website with WooCommerce + MOMO (Use for MOMO, Cash App, Western Union, MoneyGram)
+    Receive mobile money payments from any country and carrier on your website with WooCommerce + MOMO (Use for MOMO, Cash App, Western Union, MoneyGram, WorldRemit)
     <br />
     <a href="https://theafricanboss.com/momo"><strong>Learn More »</strong></a>
     <br />
@@ -24,7 +24,7 @@
 
 ## Description
 
-Easy Mobile Money Payments via WooCommerce (MOMO, Cash App, Western Union, MoneyGram)
+Easy Mobile Money Payments via WooCommerce (MOMO, Cash App, Western Union, MoneyGram, WorldRemit)
 
 For more details about this woocommerce extension, **please visit [The African Boss](https://theafricanboss.com/momo)**
 

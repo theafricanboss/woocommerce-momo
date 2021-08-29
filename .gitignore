@@ -1,9 +1,5 @@
 svn-local/
 *.zip
-*.php
-*.jpg
-*.png
+radial-button-options.txt
+*.psd
 .DS_Store
-!admin/*
-!assets/*
-!momo.php
