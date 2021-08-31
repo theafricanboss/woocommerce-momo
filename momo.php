@@ -6,10 +6,10 @@
  * Author: The African Boss
  * Author URI: https://theafricanboss.com
  * Text Domain: wc-momo
- * Version: 4.0
+ * Version: 4.1
  * WC requires at least: 4.0.0
  * WC tested up to: 5.6.0
- * Version Date: Aug 28, 2021
+ * Version Date: Aug 30, 2021
  * Created: 2019
  * Copyright 2021 theafricanboss.com All rights reserved
  */
@@ -308,18 +308,21 @@ function wcmomo_init_gateway_class() {
 
 			echo '<p>Please fill these fields out below to confirm that you have sent the total requested amount.</p><br>';
 
-			echo '<div class="form-row form-row-wide">
+			echo '<div class="form-row form-row-wide">';
 
-			<label for="' .  esc_attr( $MOMOApp ) . '">Payment Transfer Method used <span class="required">*</span></label>
-			<select id="' .  esc_attr( $MOMOApp ) . '" name="' .  esc_attr( $MOMOApp ) . '" style="width:95%; border:1px solid" type="text" autocomplete="off">
+			echo '
+			<label for="' ,  esc_attr( $MOMOApp ) , '">Payment Transfer Method used <span class="required">*</span></label>
+			<select id="' ,  esc_attr( $MOMOApp ) , '" name="' ,  esc_attr( $MOMOApp ) , '" style="display: block!important; width:95%; border:1px solid" type="text" autocomplete="off">
 				<option value="' , esc_attr( 'empty' ) , '">Please send ' , $total , ' through one of the choices below</option>
 				<option value="' , esc_attr( 'MOMO agent' ) , '">- A local/online MOMO Agent to ' , esc_html( wp_kses_post( $this->ReceiverMOMONo ) ) , ' registered under ' , esc_html( wp_kses_post( $this->ReceiverMOMONoOwner ) ) , '</option>
 				<option value="' , esc_attr( 'Western Union' ) , '">- Western Union to ' , esc_html( wp_kses_post( $this->ReceiverMOMONoOwner ) ) , '</option>
 				<option value="' , esc_attr( 'Moneygram' ) , '">- MoneyGram to ' , esc_html( wp_kses_post( $this->ReceiverMOMONoOwner ) ) , '</option>
 				<option value="' , esc_attr( 'Worldremit' ) , '">- World Remit to ' , esc_html( wp_kses_post( $this->ReceiverMOMONoOwner ) ) , '</option>
-			</select>
+			</select>';
 
+			echo '
 			</div>
+
 
 			<div class="form-row form-row-wide">
 			<label>Sender Name <span class="required">*</span></label>
@@ -379,9 +382,9 @@ function wcmomo_init_gateway_class() {
 		}
 
 		public function wcmomo_thankyou_page( $order_id ) {
-    		if ( 'momo' === $order->get_payment_method() ) {
 
-				$order = wc_get_order( $order_id );
+			$order = wc_get_order( $order_id );
+    		if ( 'momo' === $order->get_payment_method() ) {
 				$total = $order->get_total();
 
 				echo "<h2>MOMO Notice</h2>";
@@ -509,7 +512,7 @@ function wcmomo_init_gateway_class() {
 					// some notes to customer (replace true with false to make it private)
 					$order->add_order_note( $note , true );
 					// Send order total to learn more about the impact of the plugin
-					wp_mail( 'info@theafricanboss.com', 'Someone used MOMO at checkout', $total );
+					wp_mail( 'info@theafricanboss.com', 'Someone used MOMO at checkout', $total, array( 'Content-Type: text/html; charset=UTF-8' ) );
 				}
 
 				// Empty cart
