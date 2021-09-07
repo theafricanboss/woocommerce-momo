@@ -88,9 +88,15 @@ Please check screenshots for more details on what is reported.
 
 == Changelog ==
 
-= 4.0/4.1 August 30, 2021 =
-- Renamed MOMO to Checkout with Mobile Money, Western Union, MoneyGram
+= 4.1 September 7, 2021 =
+- Changed the wording and removed "shipping and delivery" to include digital woocommerce sellers
+- Removed version date
+
+= 4.0.1 August 30, 2021 =
 - Fixed order order_id occurences
+
+= 4.0 August 27, 2021 =
+- Renamed MOMO to Checkout with Mobile Money, Western Union, MoneyGram
 - Edit your own MOMO Carrier/Agent name for your customers
 - Toggle or Display/Hide payment options in PRO
 - Removed cashapp and added WorldRemit

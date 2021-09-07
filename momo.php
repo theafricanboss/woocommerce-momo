@@ -9,7 +9,6 @@
  * Version: 4.1
  * WC requires at least: 4.0.0
  * WC tested up to: 5.6.0
- * Version Date: Aug 30, 2021
  * Created: 2019
  * Copyright 2021 theafricanboss.com All rights reserved
  */
@@ -252,7 +251,7 @@ function wcmomo_init_gateway_class() {
 					'type'        => 'textarea',
 					'description' => 'Notice that will be added to the thank you page before store instructions if any. <a style="text-decoration:none" href="https://theafricanboss.com/momo/" target="_blank">EDIT WITH PRO</a>',
 					'default'     => "<p>We are checking our systems to confirm that we received it. If you haven't sent the money already, please make sure to do so now.</p>" .
-					'<p>Once confirmed, we will proceed with the shipping and delivery options you chose.</p>' .
+					'<p>Once confirmed, we will start processing your order.</p>' .
 					'<p>Thank you for doing business with us! You will be updated regarding your order details soon.</p>',
 					'css'     => 'width:80%; pointer-events: none;',
 					'class'     => 'disabled',
@@ -389,7 +388,7 @@ function wcmomo_init_gateway_class() {
 
 				echo "<h2>MOMO Notice</h2>";
 				echo "<p>We are checking our systems to confirm that we received it. If you haven't sent the money already, please make sure to do so now.</p>
-				<p>Once confirmed, we will proceed with the shipping and delivery options you chose.</p>
+				<p>Once confirmed, we will start processing your order.</p>
 				<p>Thank you for doing business with us! You will be updated regarding your order details soon.</p><br><hr><br>";
 
 			}
@@ -412,7 +411,7 @@ function wcmomo_init_gateway_class() {
 				esc_html( $CustomerMOMOName ) . '</strong></p> <p>A payment was sent through <strong>' .  esc_html( $MOMOApp ) .
 				'</strong> from the following phone number: <strong>' . esc_html( $CustomerMOMONo ) . '</strong></p>' ,
 				'<p>Here is the reference code <strong>' . esc_html( $MOMORefNo ) . '</strong></p>' ,
-				'<p>Once confirmed, we will proceed with the shipping and delivery options you chose.</p><br><br>';
+				'<p>Once confirmed, we will start processing your order.</p><br><br>';
 
 				echo 'Thank you for doing business with us, <span style="text-transform:uppercase;">' . esc_html( $CustomerMOMOName ) .
 				'!</span><br> You will be updated regarding your order details soon<br>';
@@ -505,7 +504,7 @@ function wcmomo_init_gateway_class() {
 					esc_html( $CustomerMOMOName ) . '</strong></p> <p>A payment was sent through <strong>' .
 					esc_html( $MOMOApp ) . '</strong> from the following phone number: <strong>' . esc_html( $CustomerMOMONo ) . '</strong></p>' .
 					'<p>Here is the reference code <strong>' . esc_html( $MOMORefNo ) . '</strong></p>' .
-					'<p>Once confirmed, we will proceed with the shipping and delivery options you chose.</p><br>' .
+					'<p>Once confirmed, we will start processing your order.</p><br>' .
 					'<p>Thank you for doing business with us, <span style="text-transform:uppercase;">' . esc_html( $CustomerMOMOName )  . '!</span></p>' .
 					'<p>You will be updated regarding your order details soon.</p>';
 
