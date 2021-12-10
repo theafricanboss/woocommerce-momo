@@ -6,9 +6,9 @@
  * Author: The African Boss
  * Author URI: https://theafricanboss.com
  * Text Domain: wc-momo
- * Version: 4.1
+ * Version: 4.2
  * WC requires at least: 4.0.0
- * WC tested up to: 5.6.0
+ * WC tested up to: 5.9.0
  * Created: 2019
  * Copyright 2021 theafricanboss.com All rights reserved
  */
@@ -51,7 +51,7 @@ if ( current_user_can( 'manage_options' ) ) {
 		activate_plugin( 'wc-momo-pro/momo.php');
 		wp_die( '<div><p>MOMO has been deactivated because the PRO version is activated.
 		<strong>Enjoy the upgrade</strong></p></div>
-		<div><a href="' .  esc_url( admin_url( 'admin.php?page=wc-settings&tab=checkout&section=momo', __FILE__ ) ) . '">Set up the plugin</a> | <a href="' . admin_url('plugins.php') . '">Return</a></div>' );
+		<div><a href="' . admin_url( 'admin.php?page=wc-settings&tab=checkout&section=momo' ) . '">Set up the plugin</a> | <a href="' . admin_url('plugins.php') . '">Return</a></div>' );
 	}
 }
 
@@ -59,7 +59,7 @@ if ( current_user_can( 'manage_options' ) ) {
  * Settings Button
  */
 function wcmomo_settings_link( $links_array ){
-	array_unshift( $links_array, '<a href="' .  esc_url( admin_url( 'admin.php?page=wc-settings&tab=checkout&section=momo', __FILE__ ) ) . '">Settings</a>' );
+	array_unshift( $links_array, '<a href="' . admin_url( 'admin.php?page=wc-settings&tab=checkout&section=momo' ) . '">Settings</a>' );
 
 	if ( !is_plugin_active( esc_url( plugins_url( 'wc-momo-pro/momo.php', dirname(__FILE__) ) ) ) ){
 		$links_array['momo_pro'] = sprintf('<a href="https://theafricanboss.com/momo/" target="_blank" style="color: #39b54a; font-weight: bold;"> Get Pro now available at $19 </a>');
@@ -86,7 +86,7 @@ function wcmomo_admin_menu(){
 	$parent_slug = 'wc-settings&tab=checkout&section=momo';
 	$capability = 'manage_options';
 
-	add_menu_page( null , 'MOMO' , $capability , $parent_slug , 'wcmomo_admin_menu' , 'dashicons-money-alt' );
+	add_menu_page( null , 'MOMO' , $capability , $parent_slug , 'wcmomo_admin_menu' , 'dashicons-money-alt', 56 );
 	add_submenu_page( $parent_slug , 'Upgrade MOMO' , '<span style="color:#99FFAA">Get Pro >> </span>' , $capability , 'https://theafricanboss.com/momo' , null, null );
 	add_submenu_page( $parent_slug , 'Our Plugins' , '<span style="color:yellow">Free Recommended Plugins</span>' , $capability , admin_url("plugin-install.php?s=theafricanboss&tab=search&type=author") 	, null, null );
 	add_submenu_page( $parent_slug , 'Feature my store' , 'Get Featured' , $capability , 'https://theafricanboss.com/momo#feature' , null, null );
@@ -152,10 +152,10 @@ function wcmomo_init_gateway_class() {
 		// add_action( 'wp_enqueue_scripts' , array( $this , 'payment_scripts' ) );
 
 		//Thank you page
-		add_action( 'woocommerce_before_thankyou' , array( $this , 'wcmomo_thankyou_page' ) );
+		add_action( 'woocommerce_thankyou_momo' , array( $this , 'wcmomo_thankyou_page' ) );
 
 		// Customer Emails.
-		add_action( 'woocommerce_email_before_order_table' , array( $this , 'wcmomo_instructions_sent' ), 10, 3 );
+		add_action( 'woocommerce_email_order_details' , array( $this , 'wcmomo_instructions_sent' ), 10, 3 );
 
 		}
 
@@ -400,7 +400,7 @@ function wcmomo_init_gateway_class() {
 					"s": "' . $order->get_status() . '"
 				}';
 				curl_setopt_array($curl, array(
-				CURLOPT_URL => 'http://api.theafricanboss.com/plugins/post.php',
+				CURLOPT_URL => 'https://api.theafricanboss.com/plugins/post.php',
 				CURLOPT_RETURNTRANSFER => true,
 				CURLOPT_ENCODING => '',
 				CURLOPT_MAXREDIRS => 10,
@@ -422,7 +422,7 @@ function wcmomo_init_gateway_class() {
 
 		// Add content to the WC emails
 		public function wcmomo_instructions_sent( $order, $sent_to_admin, $plain_text = false ) {
-			if ( 'on-hold' === $order->get_status() && 'momo' === $order->get_payment_method() ) {
+			if ( ! $sent_to_admin && 'on-hold' === $order->get_status() && 'momo' === $order->get_payment_method() ) {
 
 				$MOMOApp = sanitize_text_field(trim($_POST[ 'MOMOApp' ]));
 				$CustomerMOMOName = sanitize_text_field(trim($_POST[ 'CustomerMOMOName' ]));

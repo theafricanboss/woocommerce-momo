@@ -3,7 +3,7 @@ Contributors: theafricanboss
 Donate Link: https://theafricanboss.com
 Tags: momo, woocommerce, mobile money, money transfer, cashapp, western union, moneygram, world remit, mtn, vodacom
 Requires at least: 4.0
-Tested up to: 5.8
+Tested up to: 5.8.2
 Stable tag: trunk
 Requires PHP: 5.0
 License: GPLv3
@@ -87,6 +87,15 @@ Please check screenshots for more details on what is reported.
 
 
 == Changelog ==
+
+= 4.2 December 5, 2021 =
+- Updated from woocommerce_before_thankyou to woocommerce_thankyou_payment-method-id for compatibility with thank you page customizer plugins
+- Moved menu order to below woocommerce menu - position 56
+- Fixed error bug that disallowed upgrade/downgrade due to global constants structure in free MOMO<PAYMENT>PRO_ while in paid, MOMO<PAYMENT>_PRO_
+- Fixed admin_url functions with issues
+- Added ! $sent_to_admin / $sent_to_admin = false to email instructions
+- Replaced woocommerce_email_before_order_table hook by woocommerce_email_order_details
+- Updated Woocommerce and Wordpress compatibility
 
 = 4.1 September 7, 2021 =
 - Changed the wording and removed "shipping and delivery" to include digital woocommerce sellers
