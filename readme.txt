@@ -87,6 +87,13 @@ Please check screenshots for more details on what is reported.
 
 == Changelog ==
 
+= 4.3 August 15, 2022 =
+- Added payment icons with select option
+- Added receiver information
+- Better checkout UI
+- Removed Moneygram for trademark reasons
+- Updated Woocommerce and Wordpress compatibility
+
 = 4.2 December 5, 2021 =
 - Updated from woocommerce_before_thankyou to woocommerce_thankyou_payment-method-id for compatibility with thank you page customizer plugins
 - Moved menu order to below woocommerce menu - position 56
