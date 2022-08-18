@@ -1,7 +1,7 @@
-=== Checkout with Mobile Money, Western Union, MoneyGram, WorldRemit, WorldRemit ===
+=== Checkout with Mobile Money, Western Union, WorldRemit, WorldRemit ===
 Contributors: theafricanboss
 Donate Link: https://theafricanboss.com
-Tags: momo, woocommerce, mobile money, money transfer, cashapp, western union, moneygram, world remit, mtn, vodacom
+Tags: momo, woocommerce, mobile money, money transfer, cashapp, western union, world remit, mtn, vodacom
 Requires at least: 4.0
 Tested up to: 5.8.2
 Stable tag: trunk
@@ -9,13 +9,12 @@ Requires PHP: 5.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-Receive mobile money, Western Union, MoneyGram, WorldRemit payments from any country and carrier on your website with WooCommerce + MOMO
+Receive mobile money, Western Union, WorldRemit payments from any country and carrier on your website with WooCommerce + MOMO
 
 == Description ==
 
-**You can now add the MOMO carrier/agent name of your mobile money account and display/hide the payment methods you accept in the PRO version**
-
-MOMO - Easy Mobile Money Payments via WooCommerce (MOMO, Western Union, MoneyGram, WorldRemit)
+**Now compatible with Translation plugins (like Loco, WPML, etc) meaning you can translate the Checkout, Thank you page and Email notices**
+**You can also add the carrier name of your mobile money account and display/hide the payment methods you accept in the PRO version**
 
 For more details about this woocommerce extension, **please visit [The African Boss](https://theafricanboss.com/momo)**
 
@@ -48,13 +47,13 @@ See the screenshots or the store example of [Gura Stores](https://gurastores.com
 = From Dashboard ( WordPress admin ) =
 
 * Go to Plugins -> Add New
-* Search for ‘Mobile Money, Western Union, MoneyGram, WorldRemit’
+* Search for ‘Mobile Money, Western Union, WorldRemit’
 * Click on Install Now
 * Activate the plugin through the “Plugins” menu in WordPress.
 
 = Using cPanel or FTP =
 
-* Download ‘Mobile Money, Western Union, MoneyGram, WorldRemit’ from [WordPress](https://wordpress.org/plugins/momo-mobile-money-payments-woocommerce-extension/)
+* Download ‘Mobile Money, Western Union, WorldRemit’ from [WordPress](https://wordpress.org/plugins/momo-mobile-money-payments-woocommerce-extension/)
 * Unzip the downloaded ZIP file and
 * Upload the unzipped folder to the “/wp-content/plugins/” directory.
 * Activate the plugin through the “Plugins” menu in WordPress.
@@ -105,7 +104,7 @@ Please check screenshots for more details on what is reported.
 - Fixed order order_id occurences
 
 = 4.0 August 27, 2021 =
-- Renamed MOMO to Checkout with Mobile Money, Western Union, MoneyGram
+- Renamed MOMO to Checkout with Mobile Money, Western Union, WorldRemit
 - Edit your own MOMO Carrier/Agent name for your customers
 - Toggle or Display/Hide payment options in PRO
 - Removed cashapp and added WorldRemit
@@ -176,7 +175,7 @@ Smooth upgrade from free to PRO
 = 2.6.0 =
 * Removed input field for transferred money
 * Added total order amount instead
-* Removed ApplePay, GooglePay, and Venmo payment methods and kept MOMO, CashApp, Western Union and MoneyGram, WorldRemit
+* Removed ApplePay, GooglePay, and Venmo payment methods and kept MOMO, CashApp, Western Union and WorldRemit
 
 = 2.5.0 =
 * Validation of input fields

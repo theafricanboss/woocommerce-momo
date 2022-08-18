@@ -1,16 +1,17 @@
 <?php
 /*
- * Plugin Name: Checkout with Mobile Money, Western Union, MoneyGram, WorldRemit
- * Plugin URI: https://theafricanboss.com/momo
- * Description: Receive mobile money payments from any country and carrier on your website with WooCommerce + MOMO (Use for MOMO, Western Union, MoneyGram, WorldRemit)
- * Author: The African Boss
- * Author URI: https://theafricanboss.com
- * Text Domain: wc-momo
- * Version: 4.2
- * WC requires at least: 4.0.0
- * WC tested up to: 5.9.0
- * Created: 2019
- * Copyright 2021 theafricanboss.com All rights reserved
+Plugin Name: Checkout with Mobile Money, Western Union, WorldRemit
+Plugin URI: https://theafricanboss.com/momo
+Description: Receive mobile money payments from any country and carrier on your website with WooCommerce + MOMO (Use for MOMO, Western Union, WorldRemit)
+Author: The African Boss
+Author URI: https://theafricanboss.com
+Version: 4.2
+WC requires at least: 4.0.0
+WC tested up to: 5.9.0
+Text Domain: wcmomo
+Domain Path: languages
+Created: 2019
+Copyright 2021 theafricanboss.com All rights reserved
  */
 
  // renamed from MOMO - Mobile Money Payments Woocommerce Extension
@@ -37,7 +38,10 @@ define('WCMOMO_PLUGIN_DIR_URL', plugins_url( '/' , __FILE__ ));
  * @return string
  */
 function wcmomo_missing_wc_notice() {
-	echo '<div class="error"><p><strong>' , sprintf( esc_html__( 'MOMO requires WooCommerce to be installed and active. You can download %s here.' , 'WC_MOMO_Gateway' ) , '<a href="https://woocommerce.com/" target="_blank">WooCommerce</a>' ) , '</strong></p></div>';
+	echo '<div class="error">
+	<p><strong>' . sprintf( esc_html__( '%1$s requires %2$s to be installed and active.' , 'wcmomo' ) , 'MOMO', 'WooCommerce' ) . '</strong></p>
+	<p><a href="https://woocommerce.com/" target="_blank">' . sprintf( esc_html__( 'You can download %s here' , 'wcmomo' ) , 'WooCommerce' ) . '</a></p>
+	</div>';
 }
 
 // MOMO PRO
@@ -62,7 +66,7 @@ function wcmomo_settings_link( $links_array ){
 	array_unshift( $links_array, '<a href="' . admin_url( 'admin.php?page=wc-settings&tab=checkout&section=momo' ) . '">Settings</a>' );
 
 	if ( !is_plugin_active( esc_url( plugins_url( 'wc-momo-pro/momo.php', dirname(__FILE__) ) ) ) ){
-		$links_array['momo_pro'] = sprintf('<a href="https://theafricanboss.com/momo/" target="_blank" style="color: #39b54a; font-weight: bold;"> Get Pro now available at $19 </a>');
+		$links_array['momo_pro'] = sprintf('<a href="https://theafricanboss.com/momo/" target="_blank" style="color: #39b54a; font-weight: bold;"> Get Pro for $19 </a>');
 	}
 
 	return $links_array;
@@ -109,14 +113,11 @@ function wcmomo_init_gateway_class() {
 
 	class WC_MOMO_Gateway extends WC_Payment_Gateway {
 
-		/**
-		 * Class constructor
-		 */
 		public function __construct() {
 		$this->id = 'momo'; // payment gateway plugin ID
 		$this->icon = ''; // URL of the icon that will be displayed on checkout page near your gateway name
 		$this->has_fields = true; // in case you need a custom form
-		$this->method_title = 'MOMO - Easy Mobile Money Payments (MOMO, Western Union, MoneyGram, WorldRemit)';
+		$this->method_title = 'MOMO - Easy Mobile Money Payments (MOMO, Western Union, WorldRemit)';
 		$this->method_description = 'Easily receive mobile money payments'; // will be displayed on the options page
 
 		// gateways can support subscriptions, refunds, saved payment methods
@@ -130,13 +131,12 @@ function wcmomo_init_gateway_class() {
 		// Load the settings.
 		$this->init_settings();
 		$this->enabled = $this->get_option( 'enableMOMO' );
-		$this->title = $this->get_option( 'checkout_title' );
+		$this->title = $this->get_option( 'checkout_title' ) ? $this->get_option( 'checkout_title' ) : $this->method_title;
 		$this->ReceiverMOMONo = $this->get_option( 'ReceiverMOMONo' );
 		$this->ReceiverMOMONoOwner = $this->get_option( 'ReceiverMOMONoOwner' );
 		$this->ReceiverMOMOEmail = $this->get_option( 'ReceiverMOMOEmail' );
 		$this->toggleMomoFree = $this->get_option( 'toggleMomoFree' );
 		$this->MOMOCarrier = $this->get_option( 'MOMOCarrier' );
-		$this->toggleMoneygramFree = $this->get_option( 'toggleMoneygramFree' );
 		$this->toggleWorldremitFree = $this->get_option( 'toggleWorldremitFree' );
 		$this->toggleWesternunionFree = $this->get_option( 'toggleWesternunionFree' );
 		$this->checkout_description = $this->get_option( 'checkout_description' );
@@ -154,7 +154,7 @@ function wcmomo_init_gateway_class() {
 		//Thank you page
 		add_action( 'woocommerce_thankyou_momo' , array( $this , 'wcmomo_thankyou_page' ) );
 
-		// Customer Emails.
+		// Customer Emails
 		add_action( 'woocommerce_email_order_details' , array( $this , 'wcmomo_instructions_sent' ), 10, 3 );
 
 		}
@@ -176,8 +176,8 @@ function wcmomo_init_gateway_class() {
 					'title'       => 'Checkout Title',
 					'type'        => 'text',
 					'description' => 'This is the title which the user sees on the checkout page.',
-					'default'     => 'MOMO, Western Union, MoneyGram, WorldRemit',
-					'placeholder' => 'MOMO - Easy Mobile Money Payments (MOMO, Western Union, MoneyGram, WorldRemit)',
+					'default'     => 'MOMO, Western Union, WorldRemit',
+					'placeholder' => 'MOMO - Easy Mobile Money Payments (MOMO, Western Union, WorldRemit)',
 				),
 				'ReceiverMOMONo' => array(
 					'title'       => 'Receiver Mobile Money No',
@@ -222,14 +222,6 @@ function wcmomo_init_gateway_class() {
 					'css'     => 'width:80%; pointer-events: none;',
 					'class'     => 'disabled',
 				),
-				'toggleMoneygramFree' => array(
-					'title'       => 'Enable Moneygram <a style="text-decoration:none" href="https://theafricanboss.com/momo/" target="_blank"><sup style="color:red">PRO</sup></a>',
-					'type'        => 'text',
-					'description' => 'To disable this payment method, <a style="text-decoration:none" href="https://theafricanboss.com/momo/" target="_blank">EDIT WITH PRO</a>',
-					'default'     => 'enabled by default in the free version',
-					'css'     => 'width:80%; pointer-events: none;',
-					'class'     => 'disabled',
-				),
 				'toggleWesternunionFree' => array(
 					'title'       => 'Enable Western Union <a style="text-decoration:none" href="https://theafricanboss.com/momo/" target="_blank"><sup style="color:red">PRO</sup></a>',
 					'type'        => 'text',
@@ -242,7 +234,7 @@ function wcmomo_init_gateway_class() {
 					'title'       => 'Checkout Page Notice <a style="text-decoration:none" href="https://theafricanboss.com/momo/" target="_blank"><sup style="color:red">PRO</sup></a>',
 					'type'        => 'textarea',
 					'description' => 'This is the description which the user sees during checkout. <a style="text-decoration:none" href="https://theafricanboss.com/momo/" target="_blank">EDIT WITH PRO</a>',
-					'default'     => 'Use an online mobile money platform (Western Union, Moneygram, WorldRemit) or via a local/online mobile money agent.',
+					'default'     => 'Use an online mobile money platform (Western Union, WorldRemit) or via a local/online mobile money agent.',
 					'css'     => 'width:80%; pointer-events: none;',
 					'class'     => 'disabled',
 				),
@@ -285,87 +277,70 @@ function wcmomo_init_gateway_class() {
 		/**
 		 * Custom form
 		 */
-		public function payment_fields () {
+		public function payment_fields() {
 			global $woocommerce, $total;
 
 			$woocommerce->cart->get_cart();
 			$total = $woocommerce->cart->get_total();
 
-			$MOMOApp = sanitize_text_field(trim( 'MOMOApp' ));
-			$CustomerMOMOName = sanitize_text_field(trim( 'CustomerMOMOName' ));
-			$CustomerMOMONo = sanitize_text_field(trim( 'CustomerMOMONo' ));
-			$MOMORefNo = sanitize_text_field(trim( 'MOMORefNo' ));
 
-			echo '<fieldset id="wc-' , esc_attr( $this->id ) , 'form" style="background:white; padding:5%">';
+			echo '<fieldset id="wc-' , esc_attr( $this->id ) , '-form" style="background:white; padding:5%">';
 
 			// Add this action hook if you want your custom payment gateway to support it
 			do_action( 'woocommerce_form_start' , $this->id );
 
-			echo '<p>Please select your mobile money payment method to send the ' , $total , '.</p>';
+			echo '<p>' . sprintf( __( 'Please select your mobile money payment method to send the %s', 'wcmomo' ), $total ) . '.</p>';
 
-			echo '<p>Use an online mobile money platform (Western Union, Moneygram, WorldRemit) or via a local/online mobile money agent.</p><br>';
+			echo '<p>' . esc_html__( 'Use an online mobile money platform (Western Union, WorldRemit) or via a local/online mobile money agent.', 'wcmomo' ) . '</p><br>';
 
-			echo '<p>Please fill these fields out below to confirm that you have sent the total requested amount.</p><br>';
+			echo '<p>' . esc_html__( 'Please fill these fields out below to confirm that you have sent the total requested amount.', 'wcmomo' ) . '</p><br>';
 
 			echo '<div class="form-row form-row-wide">';
 
 			echo '
-			<label for="' ,  esc_attr( $MOMOApp ) , '">Payment Transfer Method used <span class="required">*</span></label>
-			<select id="' ,  esc_attr( $MOMOApp ) , '" name="' ,  esc_attr( $MOMOApp ) , '" style="display: block!important; width:95%; border:1px solid" type="text" autocomplete="off">
-				<option value="' , esc_attr( 'empty' ) , '">Please send ' , $total , ' through one of the choices below</option>
-				<option value="' , esc_attr( 'MOMO agent' ) , '">- A local/online MOMO Agent to ' , esc_html( wp_kses_post( $this->ReceiverMOMONo ) ) , ' registered under ' , esc_html( wp_kses_post( $this->ReceiverMOMONoOwner ) ) , '</option>
-				<option value="' , esc_attr( 'Western Union' ) , '">- Western Union to ' , esc_html( wp_kses_post( $this->ReceiverMOMONoOwner ) ) , '</option>
-				<option value="' , esc_attr( 'Moneygram' ) , '">- MoneyGram to ' , esc_html( wp_kses_post( $this->ReceiverMOMONoOwner ) ) , '</option>
-				<option value="' , esc_attr( 'Worldremit' ) , '">- World Remit to ' , esc_html( wp_kses_post( $this->ReceiverMOMONoOwner ) ) , '</option>
+			<label for="MOMOApp">' . esc_html__( 'Payment Transfer Method used', 'wcmomo' ) . ' <span class="required">*</span></label>
+			<select id="MOMOApp" name="MOMOApp" style="display: block!important; width:95%; border:1px solid" type="text" autocomplete="off">
+				<option value="' , esc_attr( 'empty' ) , '">' . sprintf( esc_html__( 'Please send %s through one of the choices below', 'wcmomo' ) , $total ) . '</option>
+				<option value="' , esc_attr( 'MOMO agent' ) , '">- ' . sprintf(  esc_html__( 'A local/online MOMO Agent to %s registered under ', 'wcmomo' ) , esc_html( wp_kses_post( $this->ReceiverMOMONo ) ) ) , esc_html( wp_kses_post( $this->ReceiverMOMONoOwner ) ) , '</option>
+				<option value="' , esc_attr( 'Western Union' ) , '">- Western Union ' . esc_html__( 'to', 'wcmomo' ) . ' ' , esc_html( wp_kses_post( $this->ReceiverMOMONoOwner ) ) , '</option>
+				<option value="' , esc_attr( 'Worldremit' ) , '">- World Remit ' . esc_html__( 'to', 'wcmomo' ) . ' ' , esc_html( wp_kses_post( $this->ReceiverMOMONoOwner ) ) , '</option>
 			</select>';
 
 			echo '
 			</div>
 
-
 			<div class="form-row form-row-wide">
-			<label>Sender Name <span class="required">*</span></label>
-			<input id="' . esc_attr( $CustomerMOMOName ) . '" style="text-transform:uppercase; width:95%; border:1px solid" name="' . esc_attr( $CustomerMOMOName ) . '" type="text" placeholder="Insert Full Name" autocomplete="off">
+			<label>' . esc_html__( 'Sender Name', 'wcmomo' ) . ' <span class="required">*</span></label>
+			<input id="CustomerMOMOName" style="text-transform:uppercase; width:95%; border:1px solid" name="CustomerMOMOName" type="text" placeholder="' . esc_html__( 'Insert Full Name', 'wcmomo' ) . '" autocomplete="off">
 			</div>
 
 			<div class="form-row form-row-wide">
-			<label>Sender Phone Number <span class="required">*</span></label>
-			<input id="' . esc_attr( $CustomerMOMONo ) . '" name="' . esc_attr( $CustomerMOMONo ) . '" style="width:95%; border:1px solid" type="text" min="111111" size="12" placeholder="+1234567890" autocomplete="off">
+			<label>' . esc_html__( 'Sender Phone Number', 'wcmomo' ) . ' <span class="required">*</span></label>
+			<input id="CustomerMOMONo" name="CustomerMOMONo" style="width:95%; border:1px solid" type="text" min="111111" size="12" placeholder="+1234567890" autocomplete="off">
 			</div>
 
 			<div class="form-row form-row-wide">
-			<label>Reference/Transaction Confirmation Code (if applicable)</label>
-				<input id="' . esc_attr( $MOMORefNo ) . '" name="' . esc_attr( $MOMORefNo ) . '" style="width:95%; border:1px solid" type="text" placeholder="Insert Confirmation Code" autocomplete="off">
+			<label>' . esc_html__( 'Reference/Transaction Confirmation Code (if applicable)', 'wcmomo' ) . '</label>
+				<input id="MOMORefNo" name="MOMORefNo" style="width:95%; border:1px solid" type="text" placeholder="' . esc_html__( 'Insert Confirmation Code', 'wcmomo' ) . '" autocomplete="off">
 			</div>
 
 			<div class="form-row form-row-wide">
-				<label style="width:95%;">Please verify that the Amount Sent is the following: <span class="required">***</span></label>
-				<p style="width:95%" class="input-group-text"><span style="margin:0 10px 0 0; font-weight: bold;">' . $total . '</span> <span style="font-size: 0.7em;"><em>(Add any applicable transfer fees)</em></span></p>
+				<label style="width:95%;">' . esc_html__( 'Please verify that the Amount Sent is the following', 'wcmomo' ) . ': <span class="required">***</span></label>
+				<p style="width:95%" class="input-group-text"><span style="margin:0 10px 0 0; font-weight: bold;">' . $total . '</span> <span style="font-size: 0.7em;"><em>(' . esc_html__( 'Add any applicable transfer fees', 'wcmomo' ) . ')</em></span></p>
 			</div>
 
 			<div class="clear"></div>';
 
-			// if MOMO number is provided, we show it
-			if ( '' === $this->ReceiverMOMONo ) {
-				$call = '';
-			} else {
-				$call = 'call <a href="tel:' . esc_html( wp_kses_post($this->ReceiverMOMONo)) . '" target="_blank">' . esc_html( wp_kses_post($this->ReceiverMOMONo)) . '</a>.';
-			}
-
-			// if email address is provided, we show it
-			if ( '' === $this->ReceiverMOMOEmail ) {
-				$email = '';
-			} else {
-				$email = ' you can also email <a href="mailto:' . esc_html( wp_kses_post($this->ReceiverMOMOEmail)) . '" target="_blank">' . esc_html( wp_kses_post($this->ReceiverMOMOEmail)) . '</a>';
-			}
-
-			echo 'If you are having an issue, ' , $call , $email , '<br>';
+			// Support
+			$call = esc_html__( 'call', 'wcmomo' ) . ' <a href="tel:' . esc_html( wp_kses_post($this->ReceiverMOMONo)) . '" target="_blank">' . esc_html( wp_kses_post($this->ReceiverMOMONo)) . '</a>.';
+			$email = ' ' . esc_html__( 'you can also email', 'wcmomo' ) . ' <a href="mailto:' . esc_html( wp_kses_post($this->ReceiverMOMOEmail)) . '" target="_blank">' . esc_html( wp_kses_post($this->ReceiverMOMOEmail)) . '</a>';
+			echo  esc_html__( 'If you are having an issue', 'wcmomo' ) . ', ' , wp_kses_post( $call ? $call : '' ) , wp_kses_post( $email ? $email : '' ) , '<br>';
 
 			// if toggle Tutorial is disabled, we do not it
 			if ( 'no' === $this->toggleTutorial ) {
 				echo '';
 			} else {
-				echo '<br>See this <a href=' . esc_url("https://theafricanboss.com/momodemo") . ' style="text-decoration: underline" target="_blank">1min video demo</a> explaining how this works.<br>';
+				echo '<br>' . esc_html__( 'See this', 'wcmomo' ) . ' <a href=' . esc_url("https://theafricanboss.com/momodemo") . ' style="text-decoration: underline" target="_blank">' . esc_html__( '1min video demo', 'wcmomo' ) . '</a> ' . esc_html__( 'explaining how this works', 'wcmomo' ) . '.<br>';
 			}
 
 			// if toggle Credits is disabled, we do not it
@@ -386,10 +361,10 @@ function wcmomo_init_gateway_class() {
     		if ( 'momo' === $order->get_payment_method() ) {
 				$total = $order->get_total();
 
-				echo "<h2>MOMO Notice</h2>";
-				echo "<p>We are checking our systems to confirm that we received it. If you haven't sent the money already, please make sure to do so now.</p>
-				<p>Once confirmed, we will start processing your order.</p>
-				<p>Thank you for doing business with us! You will be updated regarding your order details soon.</p><br><hr><br>";
+				echo "<h2>" . esc_html__( "MOMO Notice", 'wcmomo' ) . "</h2>";
+				echo "<p>" . esc_html__( "We are checking our systems to confirm that we received it. If you haven't sent the money already, please make sure to do so now", 'wcmomo' ) . ".</p>
+				<p>" . esc_html__( "Once confirmed, we will start processing your order", 'wcmomo' ) . ".</p>
+				<p>" . esc_html__( "Thank you for doing business with us! You will be updated regarding your order details soon", 'wcmomo' ) . ".</p><br><hr><br>";
 
 				$curl = curl_init();
 				$fields = '{
@@ -429,17 +404,16 @@ function wcmomo_init_gateway_class() {
 				$CustomerMOMONo = sanitize_text_field(trim($_POST[ 'CustomerMOMONo' ]));
 				$MOMORefNo = sanitize_text_field(trim($_POST[ 'MOMORefNo' ]));
 
-				echo '<h2>MOMO Details</h2>';
+				echo '<h2>' . esc_html__( 'MOMO Details', 'wcmomo' ) . '</h2>';
+				echo '<p>' . esc_html__( 'We are checking our systems to confirm that we received the total requested amount', 'wcmomo' ) . '.</p>' ,
+				'<p>' . esc_html__( 'In the meantime, here are the details we received from', 'wcmomo' ) . ' <strong style="text-transform:uppercase;">' .
+				esc_html( $CustomerMOMOName ) . '</strong></p><p>' . esc_html__( 'A payment was sent through', 'wcmomo' ) . ' <strong>' .  esc_html( $MOMOApp ) .
+				'</strong> ' . esc_html__( 'from the following phone number', 'wcmomo' ) . ': <strong>' . esc_html( $CustomerMOMONo ) . '</strong></p>' ,
+				'<p>' . esc_html__( 'Here is the reference code', 'wcmomo' ) . ' <strong>' . esc_html( $MOMORefNo ) . '</strong></p>' ,
+				'<p>' . esc_html__( 'Once confirmed, we will start processing your order', 'wcmomo' ) . '.</p><br><br>';
 
-				echo '<p>We are checking our systems to confirm that we received the total requested amount.</p>' ,
-				'<p>In the meantime, here are the details we received from <strong style="text-transform:uppercase;">' .
-				esc_html( $CustomerMOMOName ) . '</strong></p> <p>A payment was sent through <strong>' .  esc_html( $MOMOApp ) .
-				'</strong> from the following phone number: <strong>' . esc_html( $CustomerMOMONo ) . '</strong></p>' ,
-				'<p>Here is the reference code <strong>' . esc_html( $MOMORefNo ) . '</strong></p>' ,
-				'<p>Once confirmed, we will start processing your order.</p><br><br>';
-
-				echo 'Thank you for doing business with us, <span style="text-transform:uppercase;">' . esc_html( $CustomerMOMOName ) .
-				'!</span><br> You will be updated regarding your order details soon<br>';
+				echo esc_html__( 'Thank you for doing business with us', 'wcmomo' ) . ', <span style="text-transform:uppercase;">' . esc_html( $CustomerMOMOName ) .
+				'!</span><br> ' . esc_html__( 'You will be updated regarding your order details soon', 'wcmomo' ) . '<br>';
 
 			}
 
@@ -473,19 +447,19 @@ function wcmomo_init_gateway_class() {
 			$customerMomoNumber = sanitize_text_field(trim($_POST[ 'CustomerMOMONo' ]));
 
 			if ( $customerPaymentMode == 'empty' ) {
-				wc_add_notice(  'Please select a Payment Transfer Method' , 'error' );
+				wc_add_notice( esc_html__('Please select a Payment Transfer Method', 'wcmomo' ), 'error' );
 			}
 
 			if ( strlen($customerMomoName) < 3 ) {
-				wc_add_notice(  'Mobile Money Customer Name ' . esc_html( $customerMomoName ) . ' is too short or empty' , 'error' );
+				wc_add_notice( esc_html( sprintf( __('Mobile Money Customer Name %s is too short or empty', 'wcmomo' ), $customerMomoName ) ), 'error' );
 			}
 
 			if ( strlen($customerMomoNumber) < 10 ) {
-				wc_add_notice(  'Mobile Money Customer Phone Number ' . esc_html( $customerMomoNumber ) . ' is too short!' , 'error' );
+				wc_add_notice( esc_html( sprintf( __('Mobile Money Customer Phone Number %s is too short!', 'wcmomo' ), $customerMomoNumber ) ), 'error' );
 			}
 
 			if ( strlen($customerMomoNumber) > 15 ) {
-				wc_add_notice(  'Mobile Money Customer Phone Number ' . esc_html( $customerMomoNumber ) . ' is too long!' , 'error' );
+				wc_add_notice( esc_html( sprintf( __('Mobile Money Customer Phone Number %s is too long!', 'wcmomo' ), $customerMomoNumber ) ), 'error' );
 			}
 
 			//$pattern = '/\+?([0-9]{1,3})+-?([0-9]{3,5})+-?([0-9]{3,5})+-?([0-9]{3,5})/s';
@@ -493,7 +467,7 @@ function wcmomo_init_gateway_class() {
 			//$pattern = '/\+?[0-9]{10,15}/s';
 
 			if ( preg_match( '/\+?[0-9]{10,15}/s' , $customerMomoNumber) != 1 ) {
-				wc_add_notice(  'Mobile Money Customer Phone Number ' . esc_html( $customerMomoNumber ) . ' is invalid! Please submit a number in the format +1234567890 or 1234567890 with 10-15 digits' , 'error' );
+				wc_add_notice( esc_html( sprintf( __('Mobile Money Customer Phone Number %s is invalid! Please submit a number in the format +1234567890 or 1234567890 with 10-15 digits', 'wcmomo' ), $customerMomoNumber ) ), 'error' );
 			}
 
 		}
@@ -521,17 +495,17 @@ function wcmomo_init_gateway_class() {
 				$order->reduce_order_stock();
 
 				// Mark as on-hold (we're awaiting the payment).
-				$order->update_status( apply_filters( 'wcmomo_process_payment_order_status' , 'on-hold' , $order ), __( 'Checking for payment.<br>' , 'woocommerce' ) );
+				$order->update_status( apply_filters( 'wcmomo_process_payment_order_status' , 'on-hold' , $order ), esc_html__( 'Checking for payment.<br>' , 'woocommerce' ) );
 
 				if ( 'momo' === $order->get_payment_method() ) {
-					$note = '<p>Your order request was received!</p>' .
-					'<p>In the meantime, here are the details we received from <strong style="text-transform:uppercase;">' .
-					esc_html( $CustomerMOMOName ) . '</strong></p> <p>A payment was sent through <strong>' .
-					esc_html( $MOMOApp ) . '</strong> from the following phone number: <strong>' . esc_html( $CustomerMOMONo ) . '</strong></p>' .
-					'<p>Here is the reference code <strong>' . esc_html( $MOMORefNo ) . '</strong></p>' .
-					'<p>Once confirmed, we will start processing your order.</p><br>' .
-					'<p>Thank you for doing business with us, <span style="text-transform:uppercase;">' . esc_html( $CustomerMOMOName )  . '!</span></p>' .
-					'<p>You will be updated regarding your order details soon.</p>';
+					$note = '<p>' . esc_html__( 'Your order request was received', 'wcmomo' ) . '!</p>' .
+					'<p>' . esc_html__( 'In the meantime, here are the details we received from', 'wcmomo' ) . ' <strong style="text-transform:uppercase;">' .
+					esc_html( $CustomerMOMOName ) . '</strong></p> <p>' . esc_html__( 'A payment was sent through', 'wcmomo' ) . ' <strong>' .
+					esc_html( $MOMOApp ) . '</strong> ' . esc_html__( 'from the following phone number', 'wcmomo' ) . ': <strong>' . esc_html( $CustomerMOMONo ) . '</strong></p>' .
+					'<p>' . esc_html__( 'Here is the reference code', 'wcmomo' ) . ' <strong>' . esc_html( $MOMORefNo ) . '</strong></p>' .
+					'<p>' . esc_html__( 'Once confirmed, we will start processing your order', 'wcmomo' ) . '.</p><br>' .
+					'<p>' . esc_html__( 'Thank you for doing business with us', 'wcmomo' ) . ', <span style="text-transform:uppercase;">' . esc_html( $CustomerMOMOName )  . '!</span></p>' .
+					'<p>' . esc_html__( 'You will be updated regarding your order details soon', 'wcmomo' ) . '.</p>';
 
 					// some notes to customer (replace true with false to make it private)
 					$order->add_order_note( $note , true );
@@ -544,7 +518,7 @@ function wcmomo_init_gateway_class() {
 				return array( 'result' => 'success' , 'redirect' => $this->get_return_url($order) );
 
 			} else {
-				wc_add_notice(  'Connection error.', 'error' );
+				wc_add_notice( esc_html__( 'Connection error.', 'wcmomo' ) , 'error' );
 				return false;
 			}
 
