@@ -1,10 +1,10 @@
 === Checkout with Mobile Money, Western Union, WorldRemit, WorldRemit ===
 Contributors: theafricanboss
 Donate Link: https://theafricanboss.com
-Tags: momo, woocommerce, mobile money, money transfer, cashapp, western union, world remit, mtn, vodacom
+Tags: momo, woocommerce, mobile money, money transfer, western union, world remit, mtn, vodacom
 Requires at least: 4.0
-Tested up to: 5.8.2
-Stable tag: trunk
+Tested up to: 6.0.1
+Stable tag: 4.3
 Requires PHP: 5.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -88,10 +88,12 @@ Please check screenshots for more details on what is reported.
 == Changelog ==
 
 = 4.3 August 15, 2022 =
-- Added payment icons with select option
-- Added receiver information
-- Better checkout UI
-- Removed Moneygram for trademark reasons
+- Updated Checkout page UI to show clearer sender and receiver information
+- Added MOMO country field, other brand logo and width class field for admin
+- Added payment brand logos with select option
+- Added receiver information to the checkout UI
+- Updated translation domain to permalink
+- Removed Moneygram
 - Updated Woocommerce and Wordpress compatibility
 
 = 4.2 December 5, 2021 =
@@ -182,7 +184,7 @@ Smooth upgrade from free to PRO
 = 2.6.0 =
 * Removed input field for transferred money
 * Added total order amount instead
-* Removed ApplePay, GooglePay, and Venmo payment methods and kept MOMO, CashApp, Western Union and WorldRemit
+* Removed ApplePay, GooglePay, and Venmo payment methods and kept MOMO, Western Union and WorldRemit
 
 = 2.5.0 =
 * Validation of input fields

@@ -3,3 +3,5 @@ svn-local/
 radial-button-options.txt
 *.psd
 .DS_Store
+* copy.*
+* test.*
