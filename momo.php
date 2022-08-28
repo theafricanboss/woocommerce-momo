@@ -89,8 +89,9 @@ function wcmomo_add_gateway_class( $gateways ) {
 function wcmomo_admin_menu(){
 	$parent_slug = 'wc-settings&tab=checkout&section=momo';
 	$capability = 'manage_options';
+	$improved = " <sup style='color:#0c0;'>IMPROVED</sup>";
 
-	add_menu_page( null , 'MOMO' , $capability , $parent_slug , 'wcmomo_admin_menu' , 'dashicons-money-alt', 56 );
+	add_menu_page( null , 'MOMO' . $improved, $capability , $parent_slug , 'wcmomo_admin_menu' , 'dashicons-money-alt', 56 );
 	add_submenu_page( $parent_slug , 'Upgrade MOMO' , '<span style="color:#99FFAA">Get Pro >> </span>' , $capability , 'https://theafricanboss.com/momo' , null, null );
 	add_submenu_page( $parent_slug , 'Our Plugins' , '<span style="color:yellow">Free Recommended Plugins</span>' , $capability , admin_url("plugin-install.php?s=theafricanboss&tab=search&type=author") 	, null, null );
 	add_submenu_page( $parent_slug , 'Feature my store' , 'Get Featured' , $capability , 'https://theafricanboss.com/momo#feature' , null, null );
@@ -165,8 +166,11 @@ function wcmomo_init_gateway_class() {
 		 * Plugin options
 		 */
 		public function wcmomo_init_form_fields(){
-
-			$this->form_fields = array(
+			$pro = ' <a style="text-decoration:none" href="https://theafricanboss.com/momo/" target="_blank"><sup style="color:red">PRO</sup></a>';
+			$edit_with_pro = ' <a style="text-decoration:none" href="https://theafricanboss.com/momo/" target="_blank">EDIT WITH PRO</a>';
+			$newFeature = " <sup style='color:#0c0;'>NEW FEATURE</sup>";
+			$improvedFeature = " <sup style='color:#00c;'>IMPROVED FEATURE</sup>";
+				$this->form_fields = array(
 				'enableMOMO' => array(
 					'title'       => 'Enable MOMO',
 					'label'       => 'Check to Enable/Uncheck to Disable',
@@ -193,7 +197,7 @@ function wcmomo_init_gateway_class() {
 					'placeholder' => "John D",
 				),
 				'ReceiverMOMOCountry' => array(
-					'title'       => "Receiver Mobile Money Country",
+					'title'       => "Receiver Mobile Money Country" . $newFeature,
 					'type'        => 'text',
 					'description' => 'This is the country associated with your store mobile money account or your receiving Mobile Money account. Customers will send money to this country',
 					'placeholder' => "Country Name",
@@ -205,57 +209,57 @@ function wcmomo_init_gateway_class() {
 					'placeholder' => "email@website.com",
 				),
 				'toggleMomoFree' => array(
-					'title'       => 'Enable Mobile Money  <a style="text-decoration:none" href="https://theafricanboss.com/momo/" target="_blank"><sup style="color:red">PRO</sup></a>',
+					'title'       => 'Enable Mobile Money ' . $pro,
 					'type'        => 'text',
-					'description' => 'To disable this payment method, <a style="text-decoration:none" href="https://theafricanboss.com/momo/" target="_blank">EDIT WITH PRO</a>',
+					'description' => 'To disable this payment method,' . $edit_with_pro,
 					'default'     => 'enabled by default in the free version',
 					'css'     => 'width:80%; pointer-events: none;',
 					'class'     => 'disabled',
 				),
 				'MOMOCarrier' => array(
-					'title'       => 'MOMO Carrier or Agent <a style="text-decoration:none" href="https://theafricanboss.com/momo/" target="_blank"><sup style="color:red">PRO</sup></a>',
+					'title'       => 'MOMO Carrier or Agent' . $pro . $improvedFeature,
 					'type'        => 'text',
-					'description' => 'Replace this with the carrier of your choice <a style="text-decoration:none" href="https://theafricanboss.com/momo/" target="_blank">EDIT WITH PRO</a>',
+					'description' => 'Replace this with the carrier of your choice' . $edit_with_pro,
 					'default'     => 'A local/online MOMO Agent',
 					'placeholder'     => 'A local/online MOMO Agent',
 					'css'     => 'width:80%; pointer-events: none;',
 					'class'     => 'disabled',
 				),
 				'MOMOCarrierLogo' => array(
-					'title'       => 'MOMO Carrier Logo <a style="text-decoration:none" href="https://theafricanboss.com/momo/" target="_blank"><sup style="color:red">PRO</sup></a>',
+					'title'       => 'MOMO Carrier Logo' . $pro . $newFeature,
 					'type'        => 'file',
-					'description' => 'Replace this with the carrier logo of your choice <a style="text-decoration:none" href="https://theafricanboss.com/momo/" target="_blank">EDIT WITH PRO</a>',
+					'description' => 'Replace this with the carrier logo of your choice' . $edit_with_pro,
 					'css'     => 'width:80%; pointer-events: none;',
 					'class'     => 'disabled',
 				),
 				'toggleWorldremitFree' => array(
-					'title'       => 'Enable Worldremit <a style="text-decoration:none" href="https://theafricanboss.com/momo/" target="_blank"><sup style="color:red">PRO</sup></a>',
+					'title'       => 'Enable Worldremit' . $pro. $improvedFeature,
 					'type'        => 'text',
-					'description' => 'To disable this payment method, <a style="text-decoration:none" href="https://theafricanboss.com/momo/" target="_blank">EDIT WITH PRO</a>',
+					'description' => 'To disable this payment method,' . $edit_with_pro,
 					'default'     => 'enabled by default in the free version',
 					'css'     => 'width:80%; pointer-events: none;',
 					'class'     => 'disabled',
 				),
 				'toggleWesternunionFree' => array(
-					'title'       => 'Enable Western Union <a style="text-decoration:none" href="https://theafricanboss.com/momo/" target="_blank"><sup style="color:red">PRO</sup></a>',
+					'title'       => 'Enable Western Union' . $pro. $improvedFeature,
 					'type'        => 'text',
-					'description' => 'To disable this payment method, <a style="text-decoration:none" href="https://theafricanboss.com/momo/" target="_blank">EDIT WITH PRO</a>',
+					'description' => 'To disable this payment method,' . $edit_with_pro,
 					'default'     => 'enabled by default in the free version',
 					'css'     => 'width:80%; pointer-events: none;',
 					'class'     => 'disabled',
 				),
 				'checkout_description' => array(
-					'title'       => 'Checkout Page Notice <a style="text-decoration:none" href="https://theafricanboss.com/momo/" target="_blank"><sup style="color:red">PRO</sup></a>',
+					'title'       => 'Checkout Page Notice' . $pro,
 					'type'        => 'textarea',
-					'description' => 'This is the description which the user sees during checkout. <a style="text-decoration:none" href="https://theafricanboss.com/momo/" target="_blank">EDIT WITH PRO</a>',
+					'description' => 'This is the description which the user sees during checkout.' . $edit_with_pro,
 					'default'     => 'Use an online mobile money platform (Western Union, WorldRemit) or via a local/online mobile money agent.',
 					'css'     => 'width:80%; pointer-events: none;',
 					'class'     => 'disabled',
 				),
 				'momo_notice'    => array(
-					'title'       => 'Thank You Notice <a style="text-decoration:none" href="https://theafricanboss.com/momo/" target="_blank"><sup style="color:red">PRO</sup></a>',
+					'title'       => 'Thank You Notice' . $pro,
 					'type'        => 'textarea',
-					'description' => 'Notice that will be added to the thank you page before store instructions if any. <a style="text-decoration:none" href="https://theafricanboss.com/momo/" target="_blank">EDIT WITH PRO</a>',
+					'description' => 'Notice that will be added to the thank you page before store instructions if any.' . $edit_with_pro,
 					'default'     => "<p>We are checking our systems to confirm that we received it. If you haven't sent the money already, please make sure to do so now.</p>" .
 					'<p>Once confirmed, we will start processing your order.</p>' .
 					'<p>Thank you for doing business with us! You will be updated regarding your order details soon.</p>',
@@ -263,15 +267,15 @@ function wcmomo_init_gateway_class() {
 					'class'     => 'disabled',
 				),
 				'store_instructions'    => array(
-					'title'       => 'Store Instructions <a style="text-decoration:none" href="https://theafricanboss.com/momo/" target="_blank"><sup style="color:red">PRO</sup></a>',
+					'title'       => 'Store Instructions' . $pro,
 					'type'        => 'textarea',
-					'description' => 'Store Instructions that will be added to the thank you page and emails. <a style="text-decoration:none" href="https://theafricanboss.com/momo/" target="_blank">EDIT WITH PRO</a>',
+					'description' => 'Store Instructions that will be added to the thank you page and emails.' . $edit_with_pro,
 					'default'     => "Please send the total amount requested to our store if you haven't yet",
 					'css'     => 'width:80%; pointer-events: none;',
 					'class'     => 'disabled',
 				),
 				'fullWidthColumn' => array(
-					'title'       => 'Enable Full Width Columns on checkout' . $pro,
+					'title'       => 'Enable Full Width Columns on checkout' . $pro . $newFeature,
 					'label'       => 'Check to Enable / Uncheck to Disable',
 					'type'        => 'checkbox',
 					'description' => 'When checked, the amount, reference number and QR code button will occupy the full width of their container. Only recommended when payment box is half the screen width' . $edit_with_pro,
