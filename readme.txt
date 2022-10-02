@@ -3,8 +3,8 @@ Contributors: theafricanboss
 Donate Link: https://theafricanboss.com
 Tags: momo, woocommerce, mobile money, money transfer, western union, world remit, mtn, vodacom
 Requires at least: 4.0
-Tested up to: 6.0.1
-Stable tag: 4.3
+Tested up to: 6.0.2
+Stable tag: 4.3.1
 Requires PHP: 5.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -86,6 +86,11 @@ Please check screenshots for more details on what is reported.
 
 
 == Changelog ==
+
+= 4.3.1 October 1, 2022 =
+- disabled .payment_method_momo input selector width
+- removed fieldset white background
+- Updated Woocommerce and Wordpress compatibility
 
 = 4.3 August 15, 2022 =
 - Updated Checkout page UI to show clearer sender and receiver information

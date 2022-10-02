@@ -5,9 +5,9 @@ Plugin URI: https://theafricanboss.com/momo
 Description: Receive mobile money payments from any country and carrier on your website with WooCommerce + MOMO (Use for MOMO, Western Union, WorldRemit)
 Author: The African Boss
 Author URI: https://theafricanboss.com
-Version: 4.3
+Version: 4.3.1
 WC requires at least: 4.0.0
-WC tested up to: 6.8.2
+WC tested up to: 6.9.4
 Text Domain: momo-mobile-money-payments-woocommerce-extension
 Domain Path: languages
 Created: 2019
@@ -311,7 +311,7 @@ function wcmomo_init_gateway_class() {
 			$total = $woocommerce->cart->get_total();
 
 
-			echo '<fieldset id="wc-' , esc_attr( $this->id ) , '-form" style="background:white; padding:5%">';
+			echo '<fieldset id="wc-' , esc_attr( $this->id ) , '-form" style="padding:5%">';
 
 			// Add this action hook if you want your custom payment gateway to support it
 			do_action( 'woocommerce_form_start' , $this->id );
